@@ -27,13 +27,13 @@ type Hotel = {
     imageUrl?: string;
 };
 
+
 const Home: React.FC = () => {
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchHotels = async () => {
+    const fetchHotels = async () => {
             try {
                 const data = await getHotels();
                 setHotels(data.data);
@@ -47,6 +47,9 @@ const Home: React.FC = () => {
                 setLoading(false);
             }
         };
+
+    useEffect(() => {
+        
         fetchHotels();
     }, []);
 
