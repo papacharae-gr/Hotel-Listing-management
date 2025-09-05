@@ -9,6 +9,8 @@ import {
   Button,
   Badge,
   Flex,
+  Checkbox,
+  CheckboxGroup,
   useToast,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
@@ -16,19 +18,20 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createListing } from "../../data-access/gateway/listing.gateway";
 
+
 // Define the form values type
-interface HotelFormValues {
+type HotelFormValues = {
   name: string;
   description: string;
-  amenities: string;
-}
+  amenities: string[];
+};
 
 export default function HotelCreatePage() {
-  const { control, handleSubmit, reset } = useForm<HotelFormValues>({
+  const { control, handleSubmit, reset, watch } = useForm<HotelFormValues>({
     defaultValues: {
       name: "",
       description: "",
-      amenities: "",
+      amenities: [],
     },
   });
   const toast = useToast();
@@ -37,15 +40,8 @@ export default function HotelCreatePage() {
 
   const mutation = useMutation({
     mutationFn: async (values: HotelFormValues) => {
-      // amenities: comma separated string to array
-      const payload = {
-        ...values,
-        amenities: values.amenities
-          .split(",")
-          .map((a) => a.trim())
-          .filter(Boolean),
-      };
-      return createListing(payload as any);
+      // amenities is already an array
+      return createListing(values as any);
     },
     onSuccess: () => {
       toast({
@@ -95,20 +91,28 @@ export default function HotelCreatePage() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Amenities (χωρισμένα με κόμμα)</FormLabel>
+            <FormLabel>Amenities</FormLabel>
             <Controller
               name="amenities"
               control={control}
-              render={({ field }) => <Input {...field} placeholder="WiFi, Pool, Gym" />}
+              render={({ field }) => (
+                <CheckboxGroup value={field.value} onChange={field.onChange}>
+                  <Stack direction="row" flexWrap="wrap">
+                    {['WiFi', 'Pool', 'Gym', 'Parking', 'Spa', 'Restaurant', 'Bar', 'Pet Friendly', 'Air Conditioning'].map((amenity) => (
+                      <Checkbox key={amenity} value={amenity}>
+                        {amenity}
+                      </Checkbox>
+                    ))}
+                  </Stack>
+                </CheckboxGroup>
+              )}
             />
             <Flex gap={2} mt={2} flexWrap="wrap">
-              {control._formValues.amenities?.split(",").map((a: string) =>
-                a.trim() ? (
-                  <Badge key={a.trim()} colorScheme="blue">
-                    {a.trim()}
-                  </Badge>
-                ) : null
-              )}
+              {watch("amenities")?.map((a: string) => (
+                <Badge key={a} colorScheme="blue">
+                  {a}
+                </Badge>
+              ))}
             </Flex>
           </FormControl>
           <Button
