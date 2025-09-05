@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from "react";
-import { getHotels } from "../lib/httpClient";
+import { useGetListingsQuery} from "../features/listings/data-access/useListingQuery"
 import {
     Box,
     Heading,
@@ -17,50 +16,18 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-type Hotel = {
-    id: string;
-    name: string;
-    description?: string;
-    amenities?: string[];
-    rating?: number;
-    location?: { city?: string; country?: string };
-    imageUrl?: string;
-};
-
-
 const Home: React.FC = () => {
-    const [hotels, setHotels] = useState<Hotel[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { data, isLoading, error } = useGetListingsQuery();
+    
 
-    const fetchHotels = async () => {
-            try {
-                const data = await getHotels();
-                setHotels(data.data);
-            } catch (err: unknown) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError("Unknown error");
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-    useEffect(() => {
-        
-        fetchHotels();
-    }, []);
-
-    if (loading) return <Box p={8}><Text>Loading hotels...</Text></Box>;
-    if (error) return <Box p={8}><Text color="red.500">Error: {error}</Text></Box>;
+    if (isLoading) return <Box p={8}><Text>Loading hotels...</Text></Box>;
+    if (error) return <Box p={8}><Text color="red.500">Error: {error.message}</Text></Box>;
 
     return (
         <Box p={8}>
             <Heading mb={6}>Hotels</Heading>
             <SimpleGrid columns={[1, 2, 3]} spacing={6}>
-                {hotels.map((hotel) => (
+                {data?.map((hotel) => (
                     <Card key={hotel.id} maxW="sm" boxShadow="md" borderRadius="lg">
                         <CardBody>
                             <Stack spacing={3}>
@@ -90,5 +57,7 @@ const Home: React.FC = () => {
         </Box>
     );
 };
+
+
 
 export default Home;
