@@ -1,4 +1,4 @@
-import React from "react";
+
 import {
   Box,
   Flex,
@@ -33,6 +33,7 @@ export default function Navbar() {
   const id = useCurrentListingId();
 
   const Links = [
+    { label: "Home", to: "/home" },
     { label: "View", to: `/listings/${id}` },
     { label: "Edit", to: `/listings/${id}/edit` },
   ];

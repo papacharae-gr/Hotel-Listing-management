@@ -8,7 +8,10 @@ export function useListingUpdateHandler(id: string) {
 
   async function onSubmit(values: ListingUpdateFormValues) {
     try {
-      await mutateAsync(values);
+      await mutateAsync({
+        ...values,
+        rating: values.rating, // Ensure 'rating' is present in ListingUpdateFormValues
+      });
       toast({
         title: "Listing updated",
         status: "success",
