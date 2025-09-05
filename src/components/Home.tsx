@@ -20,6 +20,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteListing } from "../features/listings/data-access/gateway/listing.gateway";
 import { FiPlus, FiMapPin } from "react-icons/fi";
 
 const Home: React.FC = () => {
@@ -27,6 +29,14 @@ const Home: React.FC = () => {
 
   const cardBg = useColorModeValue("white", "gray.800");
   const muted = useColorModeValue("gray.600", "gray.300");
+  const borderColor = useColorModeValue("gray.300", "gray.600");
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => deleteListing(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["listings"] });
+    },
+  });
 
   if (isLoading) {
     return (
@@ -73,7 +83,7 @@ const Home: React.FC = () => {
       {!data || data.length === 0 ? (
         <Box
           border="1px dashed"
-          borderColor={useColorModeValue("gray.300", "gray.600")}
+          borderColor={borderColor}
           borderRadius="lg"
           p={10}
           textAlign="center"
@@ -159,6 +169,15 @@ const Home: React.FC = () => {
                       size="sm"
                     >
                       Edit
+                    </Button>
+                    <Button
+                      colorScheme="red"
+                      variant="outline"
+                      size="sm"
+                      isLoading={deleteMutation.isPending}
+                      onClick={() => deleteMutation.mutate(hotel.id)}
+                    >
+                      Delete
                     </Button>
                   </Flex>
                 </CardFooter>
