@@ -55,9 +55,9 @@ export default function ListingUpdatePage() {
 
         <ListingUpdateForm
           defaultValues={{
-            name: data.name,
-            description: data.description,
-            amenities: data.amenities,
+            name: data.name ?? '',
+            description: data.description ?? '',
+            amenities: Array.isArray(data.amenities) ? data.amenities : [],
           }}
           onSubmit={onSubmit}
           isSubmitting={isPending}

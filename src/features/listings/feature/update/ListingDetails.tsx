@@ -15,12 +15,15 @@ type Props = {
 };
 
 export default function ListingDetails({ listing }: Props) {
+  const location = listing.location || { city: '—', country: '—' };
+  const rating = typeof listing.rating === 'number' ? listing.rating : 'N/A';
+  const amenities = Array.isArray(listing.amenities) ? listing.amenities : [];
   return (
     <Stack gap={6}>
       <Box>
-        <Heading size="lg">{listing.name}</Heading>
+        <Heading size="lg">{listing.name ?? '—'}</Heading>
         <Text color="gray.500">
-          {listing.location.city}, {listing.location.country}
+          {location.city}, {location.country}
         </Text>
       </Box>
 
@@ -28,21 +31,21 @@ export default function ListingDetails({ listing }: Props) {
 
       <Box>
         <Heading size="md" mb={2}>Description</Heading>
-        <Text>{listing.description}</Text>
+        <Text>{listing.description ?? '—'}</Text>
       </Box>
 
       <Box>
         <Heading size="md" mb={2}>Amenities</Heading>
         <List display="flex" gap={2} flexWrap="wrap">
-          {listing.amenities.map((a: string) => (
+          {amenities.length > 0 ? amenities.map((a: string) => (
             <ListItem key={a}><Badge>{a}</Badge></ListItem>
-          ))}
+          )) : <ListItem><Text color="gray.400">—</Text></ListItem>}
         </List>
       </Box>
 
       <Box>
         <Heading size="sm" color="gray.600">Rating</Heading>
-        <Text>{listing.rating} / 5</Text>
+        <Text>{rating} / 5</Text>
       </Box>
     </Stack>
   );
