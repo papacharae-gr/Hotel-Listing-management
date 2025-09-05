@@ -26,8 +26,8 @@ import { deleteListing } from "../features/listings/data-access/gateway/listing.
 import { FiPlus, FiMapPin } from "react-icons/fi";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const { data, isLoading, error } = useGetListingsQuery();
-
   const cardBg = useColorModeValue("white", "gray.800");
   const muted = useColorModeValue("gray.600", "gray.300");
   const borderColor = useColorModeValue("gray.300", "gray.600");
@@ -92,7 +92,6 @@ const Home: React.FC = () => {
       </Box>
     );
 
-  const navigate = useNavigate();
   return (
     <Box p={8} minH="80vh" display="flex" flexDirection="column">
       <Flex align="center" justify="space-between" mb={6}>
