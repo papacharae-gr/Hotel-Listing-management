@@ -48,16 +48,25 @@ export default function HotelCreatePage() {
       return createListing(payload as any);
     },
     onSuccess: () => {
-      toast({ title: "Hotel created!", status: "success", duration: 2000 });
+      toast({
+        title: "Το ξενοδοχείο δημιουργήθηκε!",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+        position: "top",
+      });
+      reset();
       queryClient.invalidateQueries({ queryKey: ["listings"] });
-      navigate("/home");
+      setTimeout(() => navigate("/home"), 1000);
     },
     onError: (err: any) => {
       toast({
-        title: "Error",
-        description: err.message || "Failed to create hotel",
+        title: "Σφάλμα",
+        description: err?.message || "Αποτυχία δημιουργίας ξενοδοχείου",
         status: "error",
-        duration: 3000,
+        duration: 3500,
+        isClosable: true,
+        position: "top",
       });
     },
   });

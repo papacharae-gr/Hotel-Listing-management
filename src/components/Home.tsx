@@ -18,6 +18,7 @@ import {
   HStack,
   Icon,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -31,10 +32,28 @@ const Home: React.FC = () => {
   const muted = useColorModeValue("gray.600", "gray.300");
   const borderColor = useColorModeValue("gray.300", "gray.600");
   const queryClient = useQueryClient();
+  const toast = useToast();
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => deleteListing(id),
     onSuccess: () => {
+      toast({
+        title: "Το ξενοδοχείο διαγράφηκε!",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+        position: "top",
+      });
       queryClient.invalidateQueries({ queryKey: ["listings"] });
+    },
+    onError: (err: unknown) => {
+      toast({
+        title: "Σφάλμα διαγραφής",
+        description: err instanceof Error ? err.message : "Αποτυχία διαγραφής ξενοδοχείου",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+        position: "top",
+      });
     },
   });
 
