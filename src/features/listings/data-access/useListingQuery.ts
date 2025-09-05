@@ -1,19 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import { getListing,getListingById,getListings} from './gateway/listing.gateway';
+import { getListing, getListings } from './gateway/listing.gateway';
 
 
+// 1. Query for single listing by id
 export function useListingQuery(id: string) {
-return useQuery({
-queryKey: ['listing', id],
-queryFn: () => getListing(id),
-});
-}
-//2 Πας να κάνεις το call me thn getListingss
-export function useGetListingsQuery(){
     return useQuery({
-        queryKey:['listings'],
-        queryFn: () => getListings()
-    })
+        queryKey: ['listing', id],
+        queryFn: () => getListing(id),
+    });
+}
+// 2. Query for all listings
+export function useGetListingsQuery() {
+    return useQuery({
+        queryKey: ['listings'],
+        queryFn: () => getListings(),
+    });
 }
 
 

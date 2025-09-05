@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { useGetListingsQuery} from "../features/listings/data-access/useListingQuery"
 import {
     Box,
