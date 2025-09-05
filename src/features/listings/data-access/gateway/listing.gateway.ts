@@ -63,12 +63,12 @@ export async function getListing(id: string): Promise<Listing> {
 }
 
 
-export type UpdateListingInput = Pick<Listing, 'name' | 'description' | 'amenities' | 'rating'>;
+export type UpdateListingInput = Pick<Listing, 'name' | 'description' | 'amenities'>;
 
 
-export async function updateListing(
-	
+export async function updateListing(_id: string, data: UpdateListingInput
+
 ): Promise<Listing> {
 	await delay(500); // simulate network
-	throw new Error('Update not implemented');
+	throw new Error(`Update not implemented. Received data: ${JSON.stringify(data)}`);
 }
