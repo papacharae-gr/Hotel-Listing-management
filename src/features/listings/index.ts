@@ -1,0 +1,1 @@
+export { default as ListingUpdatePage } from './feature/update/ListingUpdatePage';
