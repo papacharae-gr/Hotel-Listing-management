@@ -19,7 +19,7 @@ import {
   Icon,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiPlus, FiMapPin } from "react-icons/fi";
 
 const Home: React.FC = () => {
@@ -63,23 +63,21 @@ const Home: React.FC = () => {
       </Box>
     );
 
+  const navigate = useNavigate();
   return (
-    <Box p={8}>
+    <Box p={8} minH="80vh" display="flex" flexDirection="column">
       <Flex align="center" justify="space-between" mb={6}>
         <Heading>Hotels</Heading>
-        <Button leftIcon={<FiPlus />} colorScheme="blue" as={Link} to="/listings/new">
-          Create Hotel
-        </Button>
       </Flex>
 
       {!data || data.length === 0 ? (
         <Box
           border="1px dashed"
-          // eslint-disable-next-line react-hooks/rules-of-hooks
           borderColor={useColorModeValue("gray.300", "gray.600")}
           borderRadius="lg"
           p={10}
           textAlign="center"
+          flex="1"
         >
           <Heading size="md" mb={2}>
             No hotels yet
@@ -87,12 +85,9 @@ const Home: React.FC = () => {
           <Text mb={6} color={muted}>
             Get started by creating your first hotel listing.
           </Text>
-          <Button colorScheme="blue" leftIcon={<FiPlus />} as={Link} to="/listings/new">
-            Create Hotel
-          </Button>
         </Box>
       ) : (
-        <SimpleGrid columns={[1, 2, 3]} spacing={6}>
+        <SimpleGrid columns={[1, 2, 3]} spacing={6} flex="1">
           {data.map((hotel) => {
             const hasDescription = !!hotel.description?.trim();
             const amenityList = (hotel.amenities ?? []).filter(Boolean);
@@ -172,6 +167,16 @@ const Home: React.FC = () => {
           })}
         </SimpleGrid>
       )}
+      <Box mt={10} mb={2} display="flex" justifyContent="center">
+        <Button
+          colorScheme="teal"
+          size="lg"
+          leftIcon={<FiPlus />}
+          onClick={() => navigate("/listings/create")}
+        >
+          Create Hotel
+        </Button>
+      </Box>
     </Box>
   );
 };
