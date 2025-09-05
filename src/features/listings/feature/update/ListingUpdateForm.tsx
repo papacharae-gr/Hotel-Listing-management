@@ -13,7 +13,13 @@ type Props = {
   isSubmitting?: boolean;
 };
 
+
 export default function ListingUpdateForm({ defaultValues, onSubmit, isSubmitting }: Props) {
+  // Ensure amenities is always an array
+  const safeDefaults = {
+    ...defaultValues,
+    amenities: defaultValues.amenities ?? [],
+  };
   const {
     register,
     control,
@@ -24,7 +30,7 @@ export default function ListingUpdateForm({ defaultValues, onSubmit, isSubmittin
     setValue,
   } = useForm<ListingUpdateFormValues>({
     resolver: zodResolver(listingUpdateSchema),
-    defaultValues,
+    defaultValues: safeDefaults,
   });
 
   // όταν αλλάζει το fetched data, κάνε reset

@@ -8,7 +8,7 @@ import {
   Stack,
   Divider,
 } from "@chakra-ui/react";
-import type { Listing } from "../../../domain/listing.model";
+import type { Listing } from "../../domain/listing.model";
 
 type Props = {
   listing: Listing;
@@ -34,7 +34,7 @@ export default function ListingDetails({ listing }: Props) {
       <Box>
         <Heading size="md" mb={2}>Amenities</Heading>
         <List display="flex" gap={2} flexWrap="wrap">
-          {listing.amenities.map((a) => (
+          {listing.amenities.map((a: string) => (
             <ListItem key={a}><Badge>{a}</Badge></ListItem>
           ))}
         </List>
