@@ -3,6 +3,7 @@ import ListingViewPage from "./features/listings/feature/update/ListingViewPage"
 import ListingUpdatePage from "./features/listings/feature/update/ListingUpdatePage";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
+import HotelCreatePage from "./features/listings/feature/create/HotelCreatePage";
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
           <Route path="/listings/:id" element={<ListingViewPage />} />
           {/* Edit page */}
           <Route path="/listings/:id/edit" element={<ListingUpdatePage />} />
+          {/* Create page */}
+          <Route path="/listings/create" element={<HotelCreatePage />} />
         </Route>
       </Routes>
     </BrowserRouter>
