@@ -44,9 +44,9 @@ export default function ListingViewPage() {
       <Stack gap={6}>
         <Flex justify="space-between" align="center">
           <Text fontSize="xl" fontWeight="semibold">Hotel Listing</Text>
-          <Button as={Link} to={`/listings/${id}/edit`} colorScheme="blue">
-            Edit
-          </Button>
+            <Button as={Link} to="/" colorScheme="blue">
+            Go Home
+            </Button>
         </Flex>
 
         <Divider />
