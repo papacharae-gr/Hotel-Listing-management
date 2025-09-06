@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useGetListingsQuery } from "../features/listings/data-access/useListingQuery";
+import { useGetListingsQuery, deleteListing } from "../features/listings";
 import {
   Box,
   Heading,
@@ -22,7 +22,6 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteListing } from "../features/listings/data-access/gateway/listing.gateway";
 import { FiPlus, FiMapPin } from "react-icons/fi";
 
 const Home: React.FC = () => {
