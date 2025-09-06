@@ -49,7 +49,7 @@ export default function ListingUpdateForm({ defaultValues, onSubmit, isSubmittin
 
   return (
     <Stack as="form" onSubmit={handleSubmit(onSubmit)} gap={6}>
-      <Heading size="lg">Edit Listing</Heading>
+      
 
       <TextInput
         label="Name"

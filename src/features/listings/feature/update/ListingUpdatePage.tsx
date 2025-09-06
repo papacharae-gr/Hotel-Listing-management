@@ -64,9 +64,9 @@ export default function ListingUpdatePage() {
         />
 
         <Divider />
-        <Text color="gray.500" fontSize="sm">
+        {/* <Text color="gray.500" fontSize="sm">
           * Rating and location are read-only in this demo.
-        </Text>
+        </Text> */} 
       </Stack>
     </Container>
   );
