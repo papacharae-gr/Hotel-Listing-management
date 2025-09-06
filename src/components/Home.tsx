@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useGetListingsQuery } from "../features/listings/data-access/useListingQuery";
 import {
   Box,
   Heading,
@@ -19,11 +18,19 @@ import {
   Icon,
   useColorModeValue,
   useToast,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay
 } from "@chakra-ui/react";
+import { useGetListingsQuery, deleteListing } from "../features/listings";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteListing } from "../features/listings/data-access/gateway/listing.gateway";
 import { FiPlus, FiMapPin } from "react-icons/fi";
+
+import { useRef, useState } from "react";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -33,6 +40,9 @@ const Home: React.FC = () => {
   const borderColor = useColorModeValue("gray.300", "gray.600");
   const queryClient = useQueryClient();
   const toast = useToast();
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const cancelRef = useRef<HTMLButtonElement>(null);
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => deleteListing(id),
     onSuccess: () => {
@@ -56,6 +66,24 @@ const Home: React.FC = () => {
       });
     },
   });
+
+  const handleDeleteClick = (id: string) => {
+    setDeleteId(id);
+    setDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteId) {
+      deleteMutation.mutate(deleteId);
+    }
+    setDialogOpen(false);
+    setDeleteId(null);
+  };
+
+  const handleCancelDelete = () => {
+    setDialogOpen(false);
+    setDeleteId(null);
+  };
 
   if (isLoading) {
     return (
@@ -173,7 +201,7 @@ const Home: React.FC = () => {
                     <Button
                       as={Link}
                       to={`/listings/${hotel.id}`}
-                      colorScheme="teal"
+                      colorScheme="cyan"
                       variant="outline"
                       size="sm"
                     >
@@ -193,7 +221,7 @@ const Home: React.FC = () => {
                       variant="outline"
                       size="sm"
                       isLoading={deleteMutation.isPending}
-                      onClick={() => deleteMutation.mutate(hotel.id)}
+                      onClick={() => handleDeleteClick(hotel.id)}
                     >
                       Delete
                     </Button>
@@ -204,6 +232,34 @@ const Home: React.FC = () => {
           })}
         </SimpleGrid>
       )}
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog
+        isOpen={isDialogOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={handleCancelDelete}
+        isCentered
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Διαγραφή ξενοδοχείου
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              Είσαι σίγουρος ότι θέλεις να διαγράψεις αυτό το ξενοδοχείο; Η ενέργεια δεν μπορεί να αναιρεθεί.
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={handleCancelDelete}>
+                Ακύρωση
+              </Button>
+              <Button colorScheme="red" onClick={handleConfirmDelete} ml={3} isLoading={deleteMutation.isPending}>
+                Διαγραφή
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
       <Box mt={10} mb={2} display="flex" justifyContent="center">
         <Button
           colorScheme="teal"

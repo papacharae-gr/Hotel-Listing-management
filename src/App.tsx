@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import ListingViewPage from "./features/listings/feature/update/ListingViewPage";
 import ListingUpdatePage from "./features/listings/feature/update/ListingUpdatePage";
-import Layout from "./components/Layout";
-import Home from "./components/Home";
+import { Layout, Home } from "./components";
 import HotelCreatePage from "./features/listings/feature/create/HotelCreatePage";
 
 export default function App() {
