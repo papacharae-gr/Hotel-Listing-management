@@ -101,7 +101,7 @@ export default function ListingDetails({ listing }: Props) {
           )}
         </Box>
 
-        {/* Προαιρετικό block rating — έτοιμο αν θελήσεις να το εμφανίσεις */}
+        {/* Προαιρετικό block rating */}
         {/* <Box>
           <Heading size="sm" color={muted} mb={1}>
             Rating

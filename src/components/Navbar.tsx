@@ -38,9 +38,8 @@ export default function Navbar() {
       position="sticky"
       top={0}
       zIndex={1000}
-      // απαλό gradient + γυαλάδα
       bgGradient={useColorModeValue(
-        "linear(to-r, blue.50, white)",
+        "linear(to-r, blue.400, white)",
         "linear(to-r, gray.900, gray.800)"
       )}
     >
