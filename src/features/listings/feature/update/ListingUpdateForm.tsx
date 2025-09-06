@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TextInput, FormCheckbox } from "../../../../components";
 import { listingUpdateSchema, type ListingUpdateFormValues } from "./validationSchema";
 
-const ALL_AMENITIES = ["WiFi", "Parking", "Pool", "Gym", "Restaurant"];
+const ALL_AMENITIES = ['WiFi', 'Pool', 'Gym', 'Parking', 'Spa', 'Restaurant', 'Bar', 'Pet Friendly', 'Air Conditioning'];
 
 type Props = {
   defaultValues: ListingUpdateFormValues; // from fetched data
