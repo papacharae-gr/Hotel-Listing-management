@@ -201,7 +201,7 @@ const Home: React.FC = () => {
                     <Button
                       as={Link}
                       to={`/listings/${hotel.id}`}
-                      colorScheme="teal"
+                      colorScheme="cyan"
                       variant="outline"
                       size="sm"
                     >

@@ -20,7 +20,7 @@ export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  // νέα, πιο «όμορφα» χρώματα
+  
   const bgGlass = useColorModeValue("rgba(255,255,255,0.75)", "rgba(26,32,44,0.65)");
   const border = useColorModeValue("blackAlpha.200", "whiteAlpha.200");
   const hoverBg = useColorModeValue("blue.50", "whiteAlpha.200");
@@ -80,7 +80,7 @@ export default function Navbar() {
                   as={Link}
                   to={l.to}
                   size="sm"
-                  rounded="full"
+                  rounded="lg"
                   variant={isActive(l.to) ? "solid" : "ghost"}
                   colorScheme={isActive(l.to) ? activeScheme : undefined}
                   _hover={!isActive(l.to) ? { bg: hoverBg } : undefined}
