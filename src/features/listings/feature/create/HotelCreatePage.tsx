@@ -15,20 +15,22 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { listingFormSchema } from "../update/validationSchema";
+import type { ListingFormValues } from "../update/validationSchema";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createListing } from "../../data-access/gateway/listing.gateway";
 
-
-// Define the form values type
-type HotelFormValues = {
-  name: string;
-  description: string;
-  amenities: string[];
-};
-
 export default function HotelCreatePage() {
-  const { control, handleSubmit, reset, watch } = useForm<HotelFormValues>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<ListingFormValues>({
+    resolver: zodResolver(listingFormSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -40,7 +42,7 @@ export default function HotelCreatePage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (values: HotelFormValues) => {
+    mutationFn: async (values: ListingFormValues) => {
       // amenities is already an array
       return createListing(values as any);
     },
@@ -75,23 +77,33 @@ export default function HotelCreatePage() {
       </Heading>
       <form onSubmit={handleSubmit((values) => mutation.mutate(values))}>
         <Stack spacing={4}>
-          <FormControl isRequired>
+          <FormControl isInvalid={!!errors.name} isRequired>
             <FormLabel>Όνομα</FormLabel>
             <Controller
               name="name"
               control={control}
               render={({ field }) => <Input {...field} />}
             />
+            {errors.name && (
+              <Box color="red.500" fontSize="sm" mt={1}>
+                {errors.name.message}
+              </Box>
+            )}
           </FormControl>
-          <FormControl isRequired>
+          <FormControl isInvalid={!!errors.description} isRequired>
             <FormLabel>Περιγραφή</FormLabel>
             <Controller
               name="description"
               control={control}
               render={({ field }) => <Textarea {...field} />}
             />
+            {errors.description && (
+              <Box color="red.500" fontSize="sm" mt={1}>
+                {errors.description.message}
+              </Box>
+            )}
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errors.amenities}>
             <FormLabel>Amenities</FormLabel>
             <Controller
               name="amenities"
@@ -115,6 +127,11 @@ export default function HotelCreatePage() {
                 </Badge>
               ))}
             </Flex>
+            {errors.amenities && (
+              <Box color="red.500" fontSize="sm" mt={1}>
+                {errors.amenities.message as string}
+              </Box>
+            )}
           </FormControl>
           <Button
             type="submit"
@@ -128,4 +145,4 @@ export default function HotelCreatePage() {
       </form>
     </Box>
   );
-}
+};

@@ -3,15 +3,18 @@ import { Button, Flex, Heading, HStack, SimpleGrid, Stack, Text } from "@chakra-
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TextInput, FormCheckbox } from "../../../../components";
-import { listingUpdateSchema, type ListingUpdateFormValues } from "./validationSchema";
+import { listingFormSchema } from "./validationSchema";
+import type { ListingFormValues } from "./validationSchema";
 
 const ALL_AMENITIES = ['WiFi', 'Pool', 'Gym', 'Parking', 'Spa', 'Restaurant', 'Bar', 'Pet Friendly', 'Air Conditioning'];
 
+
 type Props = {
-  defaultValues: ListingUpdateFormValues; // from fetched data
-  onSubmit: (values: ListingUpdateFormValues) => Promise<void> | void;
+  defaultValues: ListingFormValues; // from fetched data
+  onSubmit: (values: ListingFormValues) => Promise<void> | void;
   isSubmitting?: boolean;
 };
+
 
 
 export default function ListingUpdateForm({ defaultValues, onSubmit, isSubmitting }: Props) {
@@ -28,8 +31,8 @@ export default function ListingUpdateForm({ defaultValues, onSubmit, isSubmittin
     formState: { errors },
     watch,
     setValue,
-  } = useForm<ListingUpdateFormValues>({
-    resolver: zodResolver(listingUpdateSchema),
+  } = useForm<ListingFormValues>({
+    resolver: zodResolver(listingFormSchema),
     defaultValues: safeDefaults,
   });
 
