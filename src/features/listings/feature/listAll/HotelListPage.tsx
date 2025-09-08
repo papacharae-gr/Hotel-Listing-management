@@ -77,6 +77,10 @@ export default function HotelListPage() {
         handleConfirmDelete={handleConfirmDelete}
         deleteMutation={deleteMutation}
         cancelRef={cancelRef}
+        title={"Delete Hotel"}
+        bodyText={"Are you sure you want to delete this hotel? This action cannot be undone."}
+        cancelText={"Cancel"}
+        confirmText={"Delete"}
       />
     </Box>
   );
