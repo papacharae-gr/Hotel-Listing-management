@@ -13,9 +13,21 @@ import {
 import ListingDetails from "./ListingDetails";
 import { Link, useParams } from "react-router-dom";
 
+
 export default function ListingViewPage() {
-  const { id = "listing-123" } = useParams();
-  const { data, isLoading, isError, error } = useListingQuery(id);
+  const { id } = useParams();
+  const queryResult = useListingQuery(id || "");
+  if (!id) {
+    return (
+      <Container maxW="container.md" py={10}>
+        <Alert status="error">
+          <AlertIcon />
+          No hotel id provided in URL.
+        </Alert>
+      </Container>
+    );
+  }
+  const { data, isLoading, isError, error } = queryResult;
 
   if (isLoading) {
     return (
