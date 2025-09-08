@@ -70,9 +70,7 @@ export default function HotelListPage() {
     <Box p={8} minH="80vh" display="flex" flexDirection="column">
       <Flex align="center" justify="space-between" mb={6}>
         <Heading>Hotels</Heading>
-        <Button leftIcon={<FiPlus />} colorScheme="blue" as={Link} to="/listings/create">
-          Create Hotel
-        </Button>
+        
       </Flex>
       {(!data || data.length === 0) ? (
         <Box border="1px dashed" borderColor="gray.300" borderRadius="lg" p={10} textAlign="center" flex="1">
@@ -94,6 +92,19 @@ export default function HotelListPage() {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      <Flex justify="center" mt="auto">
+
+        
+        <Button
+          leftIcon={<FiPlus />}
+          colorScheme="green"
+          as={Link}
+          to="/listings/create"
+          mt={8} // Προσθέτει λίγο κενό πάνω από το κουμπί
+        >
+          Create Hotel
+        </Button>
+      </Flex>
     </Box>
   );
 }

@@ -14,7 +14,6 @@ export default function App() {
           <Route path="/" element={<Navigate to="/home" replace />} />
           {/* Home/List page */}
           <Route path="/home" element={<HotelListPage />} />
-          <Route path="/listings" element={<HotelListPage />} />
           {/* Read-only view */}
           <Route path="/listings/:id" element={<ListingViewPage />} />
           {/* Edit page */}

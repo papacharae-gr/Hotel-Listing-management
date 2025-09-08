@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Stack, Button, Badge, Flex, SimpleGrid, Card, CardBody, CardFooter, Divider, HStack, Icon } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
-import { FiPlus, FiMapPin } from "react-icons/fi";
+import { Heading, Text, Stack, Button, Badge, Flex, SimpleGrid, Card, CardBody, CardFooter, Divider } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+//import { FiPlus, FiMapPin } from "react-icons/fi";
 import type { Listing } from '../../domain/listing.model';
 
 interface HotelListProps {
@@ -30,7 +30,7 @@ export function HotelList({ hotels, onDelete, isDeleting }: HotelListProps) {
             <CardBody>
               <Stack spacing={3}>
                 <Heading size="md">{hotel.name}</Heading>
-                {(hotel.location?.city || hotel.location?.country) && (
+                {/* {(hotel.location?.city || hotel.location?.country) && (
                   <HStack spacing={2} color={muted} fontSize="sm">
                     <Icon as={FiMapPin} />
                     <Text>
@@ -39,7 +39,7 @@ export function HotelList({ hotels, onDelete, isDeleting }: HotelListProps) {
                       {hotel.location.country}
                     </Text>
                   </HStack>
-                )}
+                )} */}
                 {hasDescription ? (
                   <Text noOfLines={3}>{hotel.description}</Text>
                 ) : (
