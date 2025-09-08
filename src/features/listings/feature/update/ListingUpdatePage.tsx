@@ -11,7 +11,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import ListingUpdateForm from "./ListingUpdateForm";
-import { useListingUpdateHandler } from "./useListingUpdateHandler";
+import { useListingUpdateHandler } from "../../data-access/useListingUpdateHandler";
 import { Link, useParams } from "react-router-dom";
 
 export default function ListingUpdatePage() {

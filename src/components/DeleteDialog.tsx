@@ -6,7 +6,7 @@ const DeleteDialog: React.FC<{
   handleConfirmDelete: () => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteMutation: any;
-  cancelRef: React.RefObject<HTMLButtonElement>;
+  cancelRef: React.RefObject<HTMLButtonElement | null>;
 }> = ({ isDialogOpen, handleCancelDelete, handleConfirmDelete, deleteMutation, cancelRef }) => {
 
   return (
