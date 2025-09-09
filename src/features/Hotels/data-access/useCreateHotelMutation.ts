@@ -1,8 +1,8 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createListing } from "../data-access/gateway/listing.gateway";
+import { createListing } from "./gateway/listing.gateway";
 import { useToast } from "@chakra-ui/react";
-import type { ListingFormValues } from "../feature/update/validationSchema";
+import type { ListingFormValues } from "../feature/updateHotel/validationSchema";
 
 export function useCreateHotelMutation() {
   const queryClient = useQueryClient();
