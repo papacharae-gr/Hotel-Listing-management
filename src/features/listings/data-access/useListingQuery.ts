@@ -1,15 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
 import { getListing } from './gateway/listing.gateway';
+import { useToast } from '@chakra-ui/react';
 
+import { useEffect } from 'react';
 
-// 1. Query for single listing by id
 export function useListingQuery(id: string) {
-    return useQuery({
+    const toast = useToast();
+    const queryResult = useQuery({
         queryKey: ['listing', id],
         queryFn: () => getListing(id),
     });
+
+    useEffect(() => {
+        if (queryResult.isError && queryResult.error instanceof Error) {
+            toast({
+                title: 'Σφάλμα',
+                description: queryResult.error.message || 'Αποτυχία φόρτωσης ξενοδοχείου',
+                status: 'error',
+                duration: 3500,
+                isClosable: true,
+                position: 'top',
+            });
+        }
+    }, [queryResult.isError, queryResult.error, toast]);
+
+    return queryResult;
 }
-
-
-
-//gia ta post useMutate

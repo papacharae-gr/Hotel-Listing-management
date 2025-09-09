@@ -1,12 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import { getListings } from './gateway/listing.gateway';
 import type { Listing } from '../domain/listing.model';
+import { useToast } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 // Custom hook για να φέρνει όλα τα ξενοδοχεία (listings)
 export function useListHotelsQuery() {
-  return useQuery<Listing[]>({
+  const toast = useToast();
+  const query = useQuery<Listing[], Error, Listing[], ['listings']>({
     queryKey: ['listings'],
     queryFn: getListings,
     refetchOnMount: 'always',
   });
+
+  useEffect(() => {
+    if (query.error) {
+      toast({
+        title: 'Σφάλμα',
+        description: query.error.message || 'Αποτυχία φόρτωσης ξενοδοχείων',
+        status: 'error',
+        duration: 3500,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+  }, [query.error, toast]);
+
+  return query;
 }

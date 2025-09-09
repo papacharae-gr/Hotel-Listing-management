@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Heading, Flex, Button } from "@chakra-ui/react";
 import { useListHotelsQuery } from '../../data-access/useListHotelsQuery';
-import { HotelList } from './HotelList';
+import { HotelList } from '../listAll/HotelList';
 import { Link, useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
@@ -8,13 +9,15 @@ import { useRef, useState } from "react";
 import DeleteDialog from "../../../../components/DeleteDialog";
 import { useDeleteHotelMutation } from "../../data-access/useDeleteHotelMutation";
 
-
 export default function HotelListPage() {
   const navigate = useNavigate();
-  const { data, isLoading, error } = useListHotelsQuery();
+  const queryResult = useListHotelsQuery();
+  const data = (queryResult as any).data;
+  const isLoading = (queryResult as any).isLoading;
+  const error = (queryResult as any).error;
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const cancelRef = useRef<HTMLButtonElement | null>(null);
 
   const deleteMutation = useDeleteHotelMutation();
 
@@ -40,7 +43,7 @@ export default function HotelListPage() {
     return <Box p={8}>Loading...</Box>;
   }
   if (error) {
-    return <Box p={8} color="red.500">Error: {error.message}</Box>;
+    return <Box p={8} color="red.500">Error: {(error as any).message}</Box>;
   }
 
   return (
@@ -49,7 +52,7 @@ export default function HotelListPage() {
         <Heading>Hotels</Heading>
         
       </Flex>
-  {(!data || (Array.isArray(data) && data.length === 0)) ? (
+      {(!data || data.length === 0) ? (
         <Box border="1px dashed" borderColor="gray.300" borderRadius="lg" p={10} textAlign="center" flex="1">
           <Heading size="md" mb={2}>No hotels yet</Heading>
           <Button colorScheme="teal" size="lg" leftIcon={<FiPlus />} onClick={() => navigate("/listings/create")}>Create Hotel</Button>
