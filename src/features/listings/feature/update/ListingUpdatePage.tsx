@@ -11,17 +11,17 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import { useListingUpdateHandler } from "../../data-access/useListingUpdateHandler";
+import { useUpdateListingMutation } from "../../data-access/useUpdateListingMutation";
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 
 export default function ListingUpdatePage() {
   const { id = "listing-123" } = useParams();
   const { data, isLoading, isError, error } = useListingQuery(id);
-  const { onSubmit } = useListingUpdateHandler(id);
+  const mutation = useUpdateListingMutation(id);
 
   async function handleSubmit(values: any) {
-    await onSubmit(values);
+    await mutation.mutateAsync(values);
   }
 
   if (isLoading) {
