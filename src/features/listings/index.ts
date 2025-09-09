@@ -13,7 +13,7 @@ export * from './data-access/useListingQuery';
 export * from './data-access/useListHotelsQuery';
 export * from './data-access/useDeleteHotelMutation';
 export * from './data-access/useUpdateListingMutation';
-export * from './data-access/useListingUpdateHandler';
+// export * from './data-access/useListingUpdateHandler'; (removed, file deleted)
 export * from './data-access/gateway/listing.gateway';
 
 // Domain model

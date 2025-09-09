@@ -1,38 +1,27 @@
 
 
-import { Box, Heading, useToast } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { HotelForm } from "../../components/HotelForm";
-import { useMutation } from "@tanstack/react-query";
+import { useCreateHotelMutation } from "../../data-access/useCreateHotelMutation";
 import { useNavigate } from "react-router-dom";
-import { createListing } from "../../data-access/gateway/listing.gateway";
-
 
 export default function HotelCreatePage() {
+  const mutation = useCreateHotelMutation();
   const navigate = useNavigate();
-  const toast = useToast();
-  const mutation = useMutation({
-    mutationFn: createListing,
-    onSuccess: () => {
-      toast({
-        title: "Το ξενοδοχείο δημιουργήθηκε!",
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-        position: "top",
-      });
-      navigate("/home");
-    },
-    onError: (err) => {
-      toast({
-        title: "Σφάλμα",
-        description: err?.message || "Αποτυχία δημιουργίας ξενοδοχείου",
-        status: "error",
-        duration: 3500,
-        isClosable: true,
-        position: "top",
-      });
-    },
-  });
+
+  interface HotelFormValues {
+    name: string;
+    description: string;
+    amenities: string[];
+  }
+
+  function handleSubmit(values: HotelFormValues) {
+    mutation.mutate(values, {
+      onSuccess: () => {
+        navigate("/home");
+      },
+    });
+  }
 
   return (
     <Box maxW="md" mx="auto" mt={10} p={8} boxShadow="md" borderRadius="lg">
@@ -45,7 +34,7 @@ export default function HotelCreatePage() {
           description: "",
           amenities: [],
         }}
-        onSubmit={(values) => mutation.mutate(values)}
+        onSubmit={handleSubmit}
         isLoading={mutation.isPending}
         submitText="Αποθήκευση"
       />

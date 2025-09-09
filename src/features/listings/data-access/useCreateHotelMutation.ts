@@ -1,16 +1,35 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createListing } from "../data-access/gateway/listing.gateway";
+import { useToast } from "@chakra-ui/react";
 import type { ListingFormValues } from "../feature/update/validationSchema";
 
 export function useCreateHotelMutation() {
   const queryClient = useQueryClient();
-  return useMutation({
+  const toast = useToast();
+  return useMutation<unknown, Error, ListingFormValues>({
     mutationFn: async (values: ListingFormValues) => {
-      return createListing(values as any);
+      return createListing(values);
     },
     onSuccess: async () => {
+      toast({
+        title: "Το ξενοδοχείο δημιουργήθηκε!",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+        position: "top",
+      });
       await queryClient.refetchQueries({ queryKey: ["listings"] });
+    },
+    onError: (err: Error) => {
+      toast({
+        title: "Σφάλμα",
+        description: err?.message || "Αποτυχία δημιουργίας ξενοδοχείου",
+        status: "error",
+        duration: 3500,
+        isClosable: true,
+        position: "top",
+      });
     },
   });
 }
