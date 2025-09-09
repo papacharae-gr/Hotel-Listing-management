@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   Box,
   Heading,
@@ -12,64 +12,13 @@ import {
   Flex,
   Checkbox,
   CheckboxGroup,
-  useToast,
 } from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { listingFormSchema } from "../update/validationSchema";
-import type { ListingFormValues } from "../update/validationSchema";
-import { useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createListing } from "../../data-access/gateway/listing.gateway";
+
+import { Controller } from "react-hook-form";
+import { useHotelCreate } from "./useHotelCreate";
 
 export default function HotelCreatePage() {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<ListingFormValues>({
-    resolver: zodResolver(listingFormSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      amenities: [],
-    },
-  });
-  const toast = useToast();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: async (values: ListingFormValues) => {
-      // amenities is already an array
-      return createListing(values as any);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Το ξενοδοχείο δημιουργήθηκε!",
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-        position: "top",
-      });
-      reset();
-      queryClient.invalidateQueries({ queryKey: ["listings"] });
-      setTimeout(() => navigate("/home"), 1000);
-    },
-    onError: (err: any) => {
-      toast({
-        title: "Σφάλμα",
-        description: err?.message || "Αποτυχία δημιουργίας ξενοδοχείου",
-        status: "error",
-        duration: 3500,
-        isClosable: true,
-        position: "top",
-      });
-    },
-  });
-
+  const { control, handleSubmit, watch, errors, mutation } = useHotelCreate();
   return (
     <Box maxW="md" mx="auto" mt={10} p={8} boxShadow="md" borderRadius="lg">
       <Heading mb={6} size="lg">
@@ -145,4 +94,4 @@ export default function HotelCreatePage() {
       </form>
     </Box>
   );
-};
+}
