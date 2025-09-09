@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ListingViewPage from "./features/listings/feature/listOne/ListingViewPage";
-import ListingUpdatePage from "./features/listings/feature/update/ListingUpdatePage";
+import ListingViewPage from "./features/Hotels/feature/listOneHotel/HotelDetailsPage";
+import ListingUpdatePage from "./features/Hotels/feature/updateHotel/HotelUpdate";
 import { Layout } from "./components";
-import HotelListPage from "./features/listings/feature/listAll/HotelListPage";
-import HotelCreatePage from "./features/listings/feature/create/HotelCreatePage";
+import HotelListPage from "./features/Hotels/feature/listAllHotels/AllHotelListPage";
+import HotelCreatePage from "./features/Hotels/feature/createHotel/HotelCreatePage";
 
 export default function App() {
   return (

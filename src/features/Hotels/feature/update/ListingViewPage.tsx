@@ -10,7 +10,7 @@ import {
   Button,
   Divider,
 } from "@chakra-ui/react";
-import ListingDetails from "./ListingDetails";
+import ListingDetails from "../listOneHotel/HotelDetails";
 import { Link, useParams } from "react-router-dom";
 
 

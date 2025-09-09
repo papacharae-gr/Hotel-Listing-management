@@ -1,9 +1,9 @@
 // Feature pages
-export { default as ListingUpdatePage } from './feature/update/ListingUpdatePage';
-export { default as ListingViewPage } from './feature/listOne/ListingViewPage';
-export { default as ListingDetails } from './feature/listOne/ListingDetails';
-export { default as HotelListPage } from './feature/listAll/HotelListPage';
-export { HotelList } from './feature/listAll/HotelList';
+export { default as ListingUpdatePage } from './feature/updateHotel/HotelUpdate';
+export { default as ListingViewPage } from './feature/listOneHotel/HotelDetailsPage';
+export { default as ListingDetails } from './feature/listOneHotel/HotelDetails';
+export { default as HotelListPage } from './feature/listAllHotels/AllHotelListPage';
+export { HotelList } from './feature/listAllHotels/AllHotelList';
 
 // Components
 export { HotelCard } from './components/HotelCard';

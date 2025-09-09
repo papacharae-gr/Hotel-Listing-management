@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { listingFormSchema } from "../feature/update/validationSchema";
-import type { ListingFormValues } from "../feature/update/validationSchema";
+import { listingFormSchema } from "../feature/updateHotel/validationSchema";
+import type { ListingFormValues } from "../feature/updateHotel/validationSchema";
 
 interface HotelFormProps {
   defaultValues: ListingFormValues;
