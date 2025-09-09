@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useListingQuery } from "../../data-access/useListingQuery";
 import {
   Container,
@@ -11,6 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useListingUpdateHandler } from "../../data-access/useListingUpdateHandler";
+import { useToast } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 
@@ -18,6 +20,30 @@ export default function ListingUpdatePage() {
   const { id = "listing-123" } = useParams();
   const { data, isLoading, isError, error } = useListingQuery(id);
   const { onSubmit } = useListingUpdateHandler(id);
+  const toast = useToast();
+
+  async function handleSubmit(values: any) {
+    try {
+      await onSubmit(values);
+      toast({
+        title: "Listing updated",
+        status: "success",
+        duration: 2500,
+        isClosable: true,
+        position: "top",
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Update failed";
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  }
 
   if (isLoading) {
     return (
@@ -59,7 +85,7 @@ export default function ListingUpdatePage() {
             description: data.description,
             amenities: data.amenities,
           }}
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
         />
 
         <Divider />
