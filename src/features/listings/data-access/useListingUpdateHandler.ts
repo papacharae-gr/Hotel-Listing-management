@@ -1,12 +1,12 @@
 import { useToast } from "@chakra-ui/react";
 import { useUpdateListingMutation } from "./useUpdateListingMutation";
-import type { ListingUpdateFormValues } from "../feature/update/validationSchema";
+import type { ListingFormValues } from "../feature/update/validationSchema";
 
 export function useListingUpdateHandler(id: string) {
   const toast = useToast();
   const { mutateAsync, isPending } = useUpdateListingMutation(id);
 
-  async function onSubmit(values: ListingUpdateFormValues) {
+  async function onSubmit(values: ListingFormValues) {
     try {
       await mutateAsync({ ...values });
       toast({

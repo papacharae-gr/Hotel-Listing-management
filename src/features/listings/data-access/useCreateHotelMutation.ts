@@ -14,7 +14,7 @@ export function useCreateHotelMutation(reset: () => void) {
     mutationFn: async (values: ListingFormValues) => {
       return createListing(values as any);
     },
-    onSuccess: () => {
+  onSuccess: async () => {
       toast({
         title: "Το ξενοδοχείο δημιουργήθηκε!",
         status: "success",
@@ -24,7 +24,8 @@ export function useCreateHotelMutation(reset: () => void) {
       });
       reset();
       queryClient.invalidateQueries({ queryKey: ["listings"] });
-      setTimeout(() => navigate("/home"), 1000);
+  await queryClient.refetchQueries({ queryKey: ["listings"] });
+  navigate("/home");
     },
     onError: (err: any) => {
       toast({

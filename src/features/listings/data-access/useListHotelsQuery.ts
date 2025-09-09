@@ -7,5 +7,6 @@ export function useListHotelsQuery() {
   return useQuery<Listing[]>({
     queryKey: ['listings'],
     queryFn: getListings,
+    refetchOnMount: 'always',
   });
 }
