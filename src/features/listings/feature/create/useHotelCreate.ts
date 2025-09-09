@@ -8,7 +8,6 @@ export function useHotelCreate() {
   const {
     control,
     handleSubmit,
-    reset,
     watch,
     formState: { errors },
   } = useForm<ListingFormValues>({
@@ -20,7 +19,7 @@ export function useHotelCreate() {
     },
   });
 
-  const mutation = useCreateHotelMutation(reset);
+  const mutation = useCreateHotelMutation();
 
   return {
     control,

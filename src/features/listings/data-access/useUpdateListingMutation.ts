@@ -9,6 +9,7 @@ export function useUpdateListingMutation(id: string) {
     mutationFn: (data: any) => updateListing(id, data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["listing", id] });
+      qc.invalidateQueries({ queryKey: ["listings"] });
     },
   });
 }
