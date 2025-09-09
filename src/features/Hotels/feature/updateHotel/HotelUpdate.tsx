@@ -11,7 +11,7 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import { useUpdateListingMutation } from "../../data-access/useUpdateListingMutation";
+import { useUpdateListingMutation } from "../../data-access/useUpdateHotelMutation";
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 

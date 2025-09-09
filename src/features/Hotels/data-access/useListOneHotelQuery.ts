@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getListing } from './gateway/listing.gateway';
+import { getListing } from './gateway/hotel.gateway';
 import { useToast } from '@chakra-ui/react';
 
 import { useEffect } from 'react';

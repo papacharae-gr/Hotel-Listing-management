@@ -1,11 +1,11 @@
-import type { Listing } from '../../domain/listing.model';
+import type { Hotel } from '../../domain/hotel.model';
 import { httpClient } from '../../../../lib/httpClient';
 
 // 1. Base API URL
 const API_BASE = 'http://localhost:3001/api/hotels';
 
 // 2. Get all listings (hotels)
-export async function getListings(): Promise<Listing[]> {
+export async function getListings(): Promise<Hotel[]> {
 		const res = await httpClient.get(`${API_BASE}`);
 		// 3. The API returns { data: [...] }
 		const hotels = res.data.data || [];
@@ -19,7 +19,7 @@ export async function getListings(): Promise<Listing[]> {
 }
 
 // 4. Get single listing by id
-export async function getListing(id: string): Promise<Listing> {
+export async function getListing(id: string): Promise<Hotel> {
 		const res = await httpClient.get(`${API_BASE}/${id}`);
 		// 5. The API returns { data: { ... } }
 		const h = res.data.data;
@@ -31,13 +31,13 @@ export async function getListing(id: string): Promise<Listing> {
 }
 
 // 6. Create new listing
-export async function createListing(data: Omit<Listing, 'id'>): Promise<Listing> {
+export async function createListing(data: Omit<Hotel, 'id'>): Promise<Hotel> {
 	const res = await httpClient.post(`${API_BASE}`, data);
 	return res.data.data;
 }
 
 // 7. Update listing by id
-export async function updateListing(id: string, data: Partial<Listing>): Promise<Listing> {
+export async function updateListing(id: string, data: Partial<Hotel>): Promise<Hotel> {
 	const res = await httpClient.put(`${API_BASE}/${id}`, data);
 	return res.data.data;
 }

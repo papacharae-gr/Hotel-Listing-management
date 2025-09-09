@@ -12,9 +12,9 @@ export { HotelCard } from './components/HotelCard';
 export * from './data-access/useListOneHotelQuery';
 export * from './data-access/useListAllHotelsQuery';
 export * from './data-access/useDeleteHotelMutation';
-export * from './data-access/useUpdateListingMutation';
+export * from './data-access/useUpdateHotelMutation';
 // export * from './data-access/useListingUpdateHandler'; (removed, file deleted)
-export * from './data-access/gateway/listing.gateway';
+export * from './data-access/gateway/hotel.gateway';
 
 // Domain model
-export * from './domain/listing.model';
+export * from './domain/hotel.model';

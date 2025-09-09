@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getListings } from './gateway/listing.gateway';
-import type { Listing } from '../domain/listing.model';
+import { getListings } from './gateway/hotel.gateway';
+import type { Listing } from '../domain/hotel.model';
 import { useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
