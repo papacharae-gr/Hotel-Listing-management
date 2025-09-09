@@ -10,14 +10,14 @@ import {
   Flex,
   Button,
 } from "@chakra-ui/react";
-import ListingUpdateForm from "./ListingUpdateForm";
 import { useListingUpdateHandler } from "../../data-access/useListingUpdateHandler";
 import { Link, useParams } from "react-router-dom";
+import { HotelForm } from "../../components/HotelForm";
 
 export default function ListingUpdatePage() {
   const { id = "listing-123" } = useParams();
   const { data, isLoading, isError, error } = useListingQuery(id);
-  const { onSubmit, isPending } = useListingUpdateHandler(id);
+  const { onSubmit } = useListingUpdateHandler(id);
 
   if (isLoading) {
     return (
@@ -53,14 +53,13 @@ export default function ListingUpdatePage() {
 
         <Divider />
 
-        <ListingUpdateForm
+        <HotelForm
           defaultValues={{
             name: data.name,
             description: data.description,
             amenities: data.amenities,
           }}
           onSubmit={onSubmit}
-          isSubmitting={isPending}
         />
 
         <Divider />
