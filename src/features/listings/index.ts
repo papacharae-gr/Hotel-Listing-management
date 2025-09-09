@@ -9,8 +9,8 @@ export { HotelList } from './feature/listAll/HotelList';
 export { HotelCard } from './components/HotelCard';
 
 // Data-access
-export * from './data-access/useListingQuery';
-export * from './data-access/useListHotelsQuery';
+export * from './data-access/useListOneHotelQuery';
+export * from './data-access/useListAllHotelsQuery';
 export * from './data-access/useDeleteHotelMutation';
 export * from './data-access/useUpdateListingMutation';
 // export * from './data-access/useListingUpdateHandler'; (removed, file deleted)

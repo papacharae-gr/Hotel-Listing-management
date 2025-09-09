@@ -1,5 +1,5 @@
 import { Box, Heading, Flex, Button } from "@chakra-ui/react";
-import { useListHotelsQuery } from '../../data-access/useListHotelsQuery';
+import { useListHotelsQuery } from '../../data-access/useListAllHotelsQuery';
 import { HotelList } from './HotelList';
 import { Link, useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";

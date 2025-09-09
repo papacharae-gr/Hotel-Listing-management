@@ -1,4 +1,4 @@
-import { useListingQuery } from "../../data-access/useListOneHotelQuery";
+import { useListingQuery } from "../../data-access/useListingQuery";
 import {
   Container,
   Spinner,
@@ -10,7 +10,7 @@ import {
   Button,
   Divider,
 } from "@chakra-ui/react";
-import ListingDetails from "./ListingDetails";
+import ListingDetails from "../listOne/ListingDetails";
 import { Link, useParams } from "react-router-dom";
 
 

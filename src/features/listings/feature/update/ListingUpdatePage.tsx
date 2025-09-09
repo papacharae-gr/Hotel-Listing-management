@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useListingQuery } from "../../data-access/useListingQuery";
+import { useListingQuery } from "../../data-access/useListOneHotelQuery";
 import {
   Container,
   Spinner,
