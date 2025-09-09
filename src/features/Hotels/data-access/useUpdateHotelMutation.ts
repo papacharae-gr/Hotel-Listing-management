@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateListing } from "./gateway/listing.gateway";
+import { updateListing } from "./gateway/hotel.gateway";
 import { useToast } from "@chakra-ui/react";
 
 export function useUpdateListingMutation(id: string) {

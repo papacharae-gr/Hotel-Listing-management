@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   Tooltip,
 } from "@chakra-ui/react";
-import type { Listing } from "../../domain/listing.model";
+import type { Listing } from "../../domain/hotel.model";
 
 type Props = {
   listing: Listing;

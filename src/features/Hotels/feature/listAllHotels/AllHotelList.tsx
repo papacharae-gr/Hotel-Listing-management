@@ -1,6 +1,6 @@
 
 import { SimpleGrid } from "@chakra-ui/react";
-import type { Listing } from '../../domain/listing.model';
+import type { Listing } from '../../domain/hotel.model';
 import { HotelCard } from '../../components/HotelCard';
 
 interface HotelListProps {

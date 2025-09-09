@@ -1,7 +1,7 @@
 
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteListing } from "./gateway/listing.gateway";
+import { deleteListing } from "./gateway/hotel.gateway";
 import { useToast } from "@chakra-ui/react";
 
 export function useDeleteHotelMutation() {

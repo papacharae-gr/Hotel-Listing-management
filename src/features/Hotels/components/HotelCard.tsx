@@ -1,6 +1,6 @@
 import { Heading, Text, Stack, Button, Badge, Flex, Card, CardBody, CardFooter, Divider } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import type { Listing } from "../domain/listing.model";
+import type { Listing } from "../domain/hotel.model";
 
 
 interface HotelCardProps {
