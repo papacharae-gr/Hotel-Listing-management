@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Heading, Flex, Button } from "@chakra-ui/react";
 import { useListHotelsQuery } from '../../data-access/useListHotelsQuery';
-import { HotelList } from '../listAll/HotelList';
+import { HotelList } from './HotelList';
 import { Link, useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
@@ -14,7 +14,7 @@ export default function HotelListPage() {
   const { data, isLoading, error } = useListHotelsQuery();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const cancelRef = useRef<HTMLButtonElement | null>(null);
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const deleteMutation = useDeleteHotelMutation();
 

@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
-import { useUpdateListingMutation } from "../../data-access/useUpdateListingMutation";
-import type { ListingUpdateFormValues } from "./validationSchema";
+import { useUpdateListingMutation } from "./useUpdateListingMutation";
+import type { ListingUpdateFormValues } from "../feature/update/validationSchema";
 
 export function useListingUpdateHandler(id: string) {
   const toast = useToast();
