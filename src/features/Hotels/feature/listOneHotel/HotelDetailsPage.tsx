@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import ListingDetails from "./HotelDetails";
 import { Link, useParams } from "react-router-dom";
+import HotelRoomsSection from '../../../Rooms/feature/listRooms/HotelRoomsSection';
 
 
 export default function HotelViewPage() {
@@ -64,6 +65,7 @@ export default function HotelViewPage() {
         <Divider />
 
         <ListingDetails hotel={data} />
+        <HotelRoomsSection hotelId={data.id} />
       </Stack>
     </Container>
   );

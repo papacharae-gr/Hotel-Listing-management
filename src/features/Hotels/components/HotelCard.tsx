@@ -17,6 +17,7 @@ export const HotelCard = ({ hotel, onDelete, isDeleting }: HotelCardProps) => {
 	return (
 		<Card
 			maxW="sm"
+			height="300px"
 			bg={cardBg}
 			borderRadius="xl"
 			boxShadow="md"
@@ -26,16 +27,6 @@ export const HotelCard = ({ hotel, onDelete, isDeleting }: HotelCardProps) => {
 			<CardBody>
 				<Stack spacing={3}>
 					<Heading size="md">{hotel.name}</Heading>
-					{/* {(hotel.location?.city || hotel.location?.country) && (
-						<HStack spacing={2} color={muted} fontSize="sm">
-							<Icon as={FiMapPin} />
-							<Text>
-								{hotel.location.city}
-								{hotel.location.city && hotel.location.country ? ", " : ""}
-								{hotel.location.country}
-							</Text>
-						</HStack>
-					)} */}
 					{hasDescription ? (
 						<Text noOfLines={3}>{hotel.description}</Text>
 					) : (
@@ -70,4 +61,4 @@ export const HotelCard = ({ hotel, onDelete, isDeleting }: HotelCardProps) => {
 			</CardFooter>
 		</Card>
 	);
-};
+};	

@@ -6,16 +6,17 @@ const API_BASE = 'http://localhost:3001/api/hotels';
 
 // 2. Get all listings (hotels)
 export async function getListings(): Promise<Hotel[]> {
-		const res = await httpClient.get(`${API_BASE}`);
-		// 3. The API returns { data: [...] }
-		const hotels = res.data.data || [];
-		// Add fallback for missing fields
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		return hotels.map((h: any) => ({
-			...h,
-			location: h.location || { city: '-', country: '-' },
-			rating: h.rating ?? 0,
-		}));
+	const res = await httpClient.get(`${API_BASE}`);
+	// The API returns { data: { data: Hotel[], ...meta } }
+	const hotels = res.data?.data?.data || [];
+	// Add fallback for missing fields
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	return Array.isArray(hotels) ? hotels.map((h: any) => ({
+		...h,
+		location: h.location || { city: '-', country: '-' },
+		rating: h.rating ?? 0,
+		//amenities: h.amenities ?? [],
+	})) : [];
 }
 
 // 4. Get single listing by id
