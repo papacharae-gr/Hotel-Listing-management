@@ -34,7 +34,7 @@ export default function RoomForm({ isOpen, onClose, hotelId, initialRoom }: Prop
   } = useForm<RoomFormValues>({
     resolver: zodResolver(roomFormSchema),
     defaultValues: {
-      roomNumber: initialRoom?.roomNumber ?? '',
+      roomNumber: initialRoom?.roomNumber.toUpperCase() ?? '',
       type: (initialRoom?.type as RoomFormValues['type']) ?? 'SINGLE',
       pricePerNight: initialRoom?.pricePerNight ?? 0,
       isAvailable: initialRoom?.isAvailable ?? true,
@@ -55,11 +55,12 @@ export default function RoomForm({ isOpen, onClose, hotelId, initialRoom }: Prop
 
   const onSubmit = async (values: RoomFormValues) => {
     try {
+      const roomNumberUpper = values.roomNumber.trim().toUpperCase();
       if (isEdit && initialRoom) {
         await updateMutation.mutateAsync({
           roomId: initialRoom.id,
           data: {
-            roomNumber: values.roomNumber.trim(),
+            roomNumber: roomNumberUpper,
             type: values.type,
             pricePerNight: values.pricePerNight,
             isAvailable: values.isAvailable,
@@ -69,7 +70,7 @@ export default function RoomForm({ isOpen, onClose, hotelId, initialRoom }: Prop
         // RoomCreateInput: περιλαμβάνει hotelId στο σώμα (το gateway θα το στείλει)
         await createMutation.mutateAsync({
           hotelId,
-          roomNumber: values.roomNumber.trim(),
+          roomNumber: roomNumberUpper,
           type: values.type,
           pricePerNight: values.pricePerNight,
           isAvailable: values.isAvailable,
