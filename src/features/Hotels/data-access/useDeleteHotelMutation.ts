@@ -17,7 +17,7 @@ export function useDeleteHotelMutation() {
         isClosable: true,
         position: "top",
       });
-      queryClient.invalidateQueries({ queryKey: ["listings"] });
+      queryClient.invalidateQueries({ queryKey: ["hotels"] });
     },
     onError: (err: Error) => {
       toast({

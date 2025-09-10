@@ -1,10 +1,10 @@
 
 import { SimpleGrid } from "@chakra-ui/react";
-import type { Listing } from '../../domain/hotel.model';
+import type { Hotel } from '../../domain/hotel.model';
 import { HotelCard } from '../../components/HotelCard';
 
 interface HotelListProps {
-  hotels: Listing[];
+  hotels: Hotel[];
   onDelete: (id: string) => void;
   isDeleting: boolean;
 }

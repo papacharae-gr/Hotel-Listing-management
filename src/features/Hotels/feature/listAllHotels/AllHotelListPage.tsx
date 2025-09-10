@@ -7,6 +7,7 @@ import { FiPlus } from "react-icons/fi";
 import { useRef, useState } from "react";
 import DeleteDialog from "../../../../components/DeleteDialog";
 import { useDeleteHotelMutation } from "../../data-access/useDeleteHotelMutation";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function HotelListPage() {
@@ -23,9 +24,13 @@ export default function HotelListPage() {
     setDialogOpen(true);
   };
 
+  const queryClient = useQueryClient();
   const handleConfirmDelete = () => {
     if (deleteId) {
       deleteMutation.mutate(deleteId);
+      queryClient.invalidateQueries({ queryKey: ['hotels'] });
+
+        
     }
     setDialogOpen(false);
     setDeleteId(null);

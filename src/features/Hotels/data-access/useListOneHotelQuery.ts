@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 export function useListingQuery(id: string) {
     const toast = useToast();
     const queryResult = useQuery({
-        queryKey: ['listing', id],
+        queryKey: ['hotel', id],
         queryFn: () => getListing(id),
     });
 

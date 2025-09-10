@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { getListings } from './gateway/hotel.gateway';
-import type { Listing } from '../domain/hotel.model';
+import type { Hotel } from '../domain/hotel.model';
 import { useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
 // Custom hook για να φέρνει όλα τα ξενοδοχεία (listings)
 export function useListHotelsQuery() {
   const toast = useToast();
-  const query = useQuery<Listing[], Error, Listing[], ['listings']>({
-    queryKey: ['listings'],
+  const query = useQuery<Hotel[], Error, Hotel[], ['hotels']>({
+    queryKey: ['hotels'],
     queryFn: getListings,
     refetchOnMount: 'always',
   });

@@ -1,4 +1,4 @@
-export { default as ListingUpdateForm } from './ListingUpdateForm';
-export { default as ListingUpdatePage } from './HotelUpdate';
-export { default as ListingViewPage } from '../listOneHotel/HotelDetailsPage';
-export { default as ListingDetails } from '../listOneHotel/HotelDetails';
+export { default as HotelForm } from '../../components/HotelForm';
+export { default as HotelUpdatePage } from './HotelUpdate';
+export { default as HotelViewPage } from '../listOneHotel/HotelDetailsPage';
+export { default as HotelDetails } from '../listOneHotel/HotelDetails';

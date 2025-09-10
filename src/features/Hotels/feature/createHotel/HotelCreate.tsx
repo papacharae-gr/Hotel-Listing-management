@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { listingFormSchema } from "../updateHotel/validationSchema";
-import type { ListingFormValues } from "../updateHotel/validationSchema";
+import type { HotelFormValues } from "../updateHotel/validationSchema";
+import { hotelFormSchema } from "../updateHotel/validationSchema";
 import { useCreateHotelMutation } from "../../data-access/useCreateHotelMutation";
 
 export function useHotelCreate() {
@@ -10,8 +10,8 @@ export function useHotelCreate() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<ListingFormValues>({
-    resolver: zodResolver(listingFormSchema),
+  } = useForm<HotelFormValues>({
+    resolver: zodResolver(hotelFormSchema),
     defaultValues: {
       name: "",
       description: "",

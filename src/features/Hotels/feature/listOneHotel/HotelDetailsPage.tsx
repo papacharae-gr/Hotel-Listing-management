@@ -14,7 +14,7 @@ import ListingDetails from "./HotelDetails";
 import { Link, useParams } from "react-router-dom";
 
 
-export default function ListingViewPage() {
+export default function HotelViewPage() {
   const { id } = useParams();
   const queryResult = useListingQuery(id || "");
   if (!id) {
@@ -63,7 +63,7 @@ export default function ListingViewPage() {
 
         <Divider />
 
-        <ListingDetails listing={data} />
+        <ListingDetails hotel={data} />
       </Stack>
     </Container>
   );

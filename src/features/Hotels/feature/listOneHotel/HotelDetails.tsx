@@ -11,21 +11,21 @@ import {
   useColorModeValue,
   Tooltip,
 } from "@chakra-ui/react";
-import type { Listing } from "../../domain/hotel.model";
+import type { Hotel } from "../../domain/hotel.model";
 
 type Props = {
-  listing: Listing;
+  hotel: Hotel;
 };
 
-export default function ListingDetails({ listing }: Props) {
+export default function HotelDetails({ hotel }: Props) {
   const cardBg = useColorModeValue("white", "gray.800");
   const muted = useColorModeValue("gray.600", "gray.400");
   const border = useColorModeValue("gray.200", "whiteAlpha.200");
 
   // Προαιρετικό limit εμφάνισης amenities για καλύτερο flow σε πολύ μεγάλες λίστες
   const AMENITY_LIMIT = 20;
-  const hasMoreAmenities = listing.amenities.length > AMENITY_LIMIT;
-  const visibleAmenities = listing.amenities.slice(0, AMENITY_LIMIT);
+  const hasMoreAmenities = hotel.amenities.length > AMENITY_LIMIT;
+  const visibleAmenities = hotel.amenities.slice(0, AMENITY_LIMIT);
 
   return (
     <Box
@@ -40,10 +40,10 @@ export default function ListingDetails({ listing }: Props) {
         {/* Header */}
         <Box>
           <Heading size="lg" noOfLines={2} lineHeight={1.2}>
-            {listing.name}
+            {hotel.name}
           </Heading>
           {/* <Text mt={1} color={muted} fontWeight="medium" noOfLines={1}>
-            {listing.location.city}, {listing.location.country}
+            {hotel.location.city}, {hotel.location.country}
           </Text> */}
         </Box>
 
@@ -58,7 +58,7 @@ export default function ListingDetails({ listing }: Props) {
             </Badge>
           </Flex>
           <Text whiteSpace="pre-line" lineHeight={1.7}>
-            {listing.description}
+            {hotel.description}
           </Text>
         </Box>
 
@@ -67,11 +67,11 @@ export default function ListingDetails({ listing }: Props) {
           <Flex align="baseline" mb={2} gap={2}>
             <Heading size="md">Amenities</Heading>
             <Badge variant="subtle" colorScheme="teal">
-              {listing.amenities.length}
+              {hotel.amenities.length}
             </Badge>
           </Flex>
 
-          {listing.amenities.length > 0 ? (
+          {hotel.amenities.length > 0 ? (
             <Wrap spacing={2}>
               {visibleAmenities.map((a) => (
                 <WrapItem key={a}>
@@ -85,12 +85,12 @@ export default function ListingDetails({ listing }: Props) {
                 <WrapItem>
                   <Tooltip
                     hasArrow
-                    label={listing.amenities.slice(AMENITY_LIMIT).join(", ")}
+                    label={hotel.amenities.slice(AMENITY_LIMIT).join(", ")}
                     placement="top"
                     openDelay={200}
                   >
                     <Badge variant="solid" colorScheme="teal" px={2} py={1} borderRadius="md">
-                      +{listing.amenities.length - AMENITY_LIMIT} more
+                      +{hotel.amenities.length - AMENITY_LIMIT} more
                     </Badge>
                   </Tooltip>
                 </WrapItem>

@@ -15,8 +15,8 @@ export function useUpdateListingMutation(id: string) {
         isClosable: true,
         position: "top",
       });
-      qc.invalidateQueries({ queryKey: ["listing", id] });
-      qc.invalidateQueries({ queryKey: ["listings"] });
+      qc.invalidateQueries({ queryKey: ["hotel", id] });
+      qc.invalidateQueries({ queryKey: ["hotels"] });
     },
     onError: (err: Error) => {
       toast({

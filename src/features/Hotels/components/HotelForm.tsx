@@ -13,12 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { listingFormSchema } from "../feature/updateHotel/validationSchema";
-import type { ListingFormValues } from "../feature/updateHotel/validationSchema";
+
+import type { HotelFormValues } from "../feature/updateHotel/validationSchema";
+import { hotelFormSchema } from "../feature/updateHotel/validationSchema";
 
 interface HotelFormProps {
-  defaultValues: ListingFormValues;
-  onSubmit: (values: ListingFormValues) => void;
+  defaultValues: HotelFormValues;
+  onSubmit: (values: HotelFormValues) => void;
   isLoading?: boolean;
   submitText?: string;
 }
@@ -34,8 +35,8 @@ export const HotelForm: React.FC<HotelFormProps> = ({
     control,
     formState: { errors },
     watch,
-  } = useForm<ListingFormValues>({
-    resolver: zodResolver(listingFormSchema),
+  } = useForm<HotelFormValues>({
+    resolver: zodResolver(hotelFormSchema),
     defaultValues,
   });
 

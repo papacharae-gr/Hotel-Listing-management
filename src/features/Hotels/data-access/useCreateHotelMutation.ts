@@ -2,13 +2,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createListing } from "./gateway/hotel.gateway";
 import { useToast } from "@chakra-ui/react";
-import type { ListingFormValues } from "../feature/updateHotel/validationSchema";
+import type { HotelFormValues } from "../feature/updateHotel/validationSchema";
 
 export function useCreateHotelMutation() {
   const queryClient = useQueryClient();
   const toast = useToast();
-  return useMutation<unknown, Error, ListingFormValues>({
-    mutationFn: async (values: ListingFormValues) => {
+  return useMutation<unknown, Error, HotelFormValues>({
+    mutationFn: async (values: HotelFormValues) => {
       return createListing(values);
     },
     onSuccess: async () => {
@@ -19,7 +19,7 @@ export function useCreateHotelMutation() {
         isClosable: true,
         position: "top",
       });
-      await queryClient.refetchQueries({ queryKey: ["listings"] });
+      await queryClient.refetchQueries({ queryKey: ["hotels"] });
     },
     onError: (err: Error) => {
       toast({

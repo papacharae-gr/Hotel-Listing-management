@@ -17,6 +17,7 @@ import { Link, useParams } from "react-router-dom";
 export default function ListingViewPage() {
   const { id } = useParams();
   const queryResult = useListingQuery(id || "");
+  
   if (!id) {
     return (
       <Container maxW="container.md" py={10}>
@@ -63,7 +64,7 @@ export default function ListingViewPage() {
 
         <Divider />
 
-        <ListingDetails listing={data} />
+        <ListingDetails hotel={data} />
       </Stack>
     </Container>
   );

@@ -1,10 +1,10 @@
 import { Heading, Text, Stack, Button, Badge, Flex, Card, CardBody, CardFooter, Divider } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import type { Listing } from "../domain/hotel.model";
+import type { Hotel } from "../domain/hotel.model";
 
 
 interface HotelCardProps {
-	hotel: Listing;
+	hotel: Hotel;
 	onDelete: (id: string) => void;
 	isDeleting: boolean;
 }

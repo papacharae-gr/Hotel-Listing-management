@@ -15,8 +15,8 @@ import { useUpdateListingMutation } from "../../data-access/useUpdateHotelMutati
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 
-export default function ListingUpdatePage() {
-  const { id = "listing-123" } = useParams();
+export default function HotelUpdatePage() {
+  const { id = "hotel" } = useParams();
   const { data, isLoading, isError, error } = useListingQuery(id);
   const mutation = useUpdateListingMutation(id);
 
