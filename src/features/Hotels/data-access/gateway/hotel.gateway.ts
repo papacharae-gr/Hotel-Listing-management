@@ -15,6 +15,7 @@ export async function getListings(): Promise<Hotel[]> {
 		...h,
 		location: h.location || { city: '-', country: '-' },
 		rating: h.rating ?? 0,
+		//amenities: h.amenities ?? [],
 	})) : [];
 }
 
