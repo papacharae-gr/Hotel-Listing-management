@@ -14,7 +14,6 @@ export function useListRoomsByHotelQuery(hotelId: string) {
     refetchOnMount: 'always',
   });
 
-  // Εμφάνισε toast σε error (ίδιο μοτίβο με Hotels)
   useEffect(() => {
     if (query.isError && query.error instanceof Error) {
       toast({

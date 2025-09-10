@@ -5,7 +5,7 @@ import type { AxiosError } from 'axios';
 
 // API base URLs for rooms and hotels endpoints
 const API_BASE_ROOMS = 'http://localhost:3001/api/rooms';
-const API_BASE_HOTELS = 'http://localhost:3001/api/hotels';
+//const API_BASE_HOTELS = 'http://localhost:3001/api/hotels';
 
 // Helper function to throw a formatted API error based on status code
 function throwApiError(err: unknown): never {
@@ -38,13 +38,16 @@ function throwApiError(err: unknown): never {
 
 // Fetch all rooms for a specific hotel
 export async function getRoomsByHotel(hotelId: string): Promise<Room[]> {
-    try {
-        const res = await httpClient.get<{ data: Room[] }>(`${API_BASE_HOTELS}/${hotelId}/rooms`);
-        return res.data?.data ?? [];
-    } catch (err) {
-        throwApiError(err);
-    }
+  try {
+    const res = await httpClient.get<{ data: Room[] }>(`${API_BASE_ROOMS}`, {
+      params: { hotelId },
+    });
+    return res.data?.data ?? [];
+  } catch (err) {
+    throwApiError(err);
+  }
 }
+
 
 // Fetch a single room by its ID
 export async function getRoom(roomId: string): Promise<Room> {
@@ -58,14 +61,18 @@ export async function getRoom(roomId: string): Promise<Room> {
 
 // Create a new room for a specific hotel
 export async function createRoom(hotelId: string, data: RoomCreateInput): Promise<Room> {
-    try {
-        const { hotelId, ...payload } = data;
-        const res = await httpClient.post<{ data: Room }>(`${API_BASE_HOTELS}/${hotelId}/rooms`, payload);
-        return res.data.data;
-    } catch (err) {
-        throwApiError(err);
-    }
+  try {
+    // ΣΤΕΛΝΟΥΜΕ hotelId στο body, αφού δεν υπάρχει nested route
+    const res = await httpClient.post<{ data: Room }>(`${API_BASE_ROOMS}`, {
+      ...data,
+      hotelId,
+    });
+    return res.data.data;
+  } catch (err) {
+    throwApiError(err);
+  }
 }
+
 
 // Update an existing room by its ID
 export async function updateRoom(roomId: string, data: RoomUpdateInput): Promise<Room> {
