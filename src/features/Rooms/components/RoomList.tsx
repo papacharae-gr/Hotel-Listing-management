@@ -5,7 +5,8 @@ import { useMemo, useRef, useState } from 'react';
 import { useListRoomsByHotelQuery } from '../data-access/useListRoomsByHotelQuery';
 import type { Room } from '../domain/room.model';
 import RoomCard from './RoomCard';
-import RoomForm from './RoomForm';
+import { CreateRoomModal } from '../feature/createRoom/createRoom';
+import { UpdateRoomModal } from '../feature/updateRoom/updateRoom';
 import DeleteDialog from '../../../components/DeleteDialog';
 import { useDeleteRoomMutation } from '../data-access/useDeleteRoomMutation';
 
@@ -93,12 +94,28 @@ export default function RoomsList({ hotelId }: Props) {
       )}
 
       {/* Add/Edit Form Modal */}
-      <RoomForm
-        isOpen={formDisclosure.isOpen}
-        onClose={formDisclosure.onClose}
-        hotelId={hotelId}
-        initialRoom={editing}
-      />
+      {editing ? (
+        <UpdateRoomModal
+          isOpen={formDisclosure.isOpen}
+          onClose={formDisclosure.onClose}
+          room={{
+            id: editing.id,
+            hotelId: editing.hotelId,
+            roomNumber: editing.roomNumber,
+            type: editing.type,
+            pricePerNight: editing.pricePerNight,
+            isAvailable: editing.isAvailable,
+          }}
+          onSuccess={formDisclosure.onClose}
+        />
+      ) : (
+        <CreateRoomModal
+          isOpen={formDisclosure.isOpen}
+          onClose={formDisclosure.onClose}
+          hotelId={hotelId}
+          onSuccess={formDisclosure.onClose}
+        />
+      )}
 
       {/* Delete confirmation dialog (shared component) */}
       {toDelete && (
