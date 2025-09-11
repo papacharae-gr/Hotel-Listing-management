@@ -1,8 +1,8 @@
 import type { Hotel } from '../../domain/hotel.model';
-import { httpClient } from '../../../../lib/httpClient';
+import { httpClient, API_BASE_HOTELS } from '../../../../lib/httpClient';
 
 // 1. Base API URL
-const API_BASE = 'http://localhost:3001/api/hotels';
+const API_BASE = API_BASE_HOTELS;
 
 // 2. Get all listings (hotels)
 export async function getListings(): Promise<Hotel[]> {

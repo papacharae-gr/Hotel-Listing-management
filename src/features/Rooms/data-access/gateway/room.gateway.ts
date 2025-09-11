@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Room, RoomCreateInput, RoomUpdateInput } from '../../domain/room.model';
-import { httpClient } from '../../../../lib/httpClient';
+import { httpClient, API_BASE_ROOMS } from '../../../../lib/httpClient';
 import type { AxiosError } from 'axios';
 
-// API base URLs for rooms and hotels endpoints
-const API_BASE_ROOMS = 'http://localhost:3001/api/rooms';
-//const API_BASE_HOTELS = 'http://localhost:3001/api/hotels';
 
 // Helper function to throw a formatted API error based on status code
 function throwApiError(err: unknown): never {
