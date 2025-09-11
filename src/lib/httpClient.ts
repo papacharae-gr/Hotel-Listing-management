@@ -12,6 +12,4 @@ export interface Hotel {
     id?: string;
     name: string;
     description: string;
-    
-    // Add other hotel properties as needed
 }

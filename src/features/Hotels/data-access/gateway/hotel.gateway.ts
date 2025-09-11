@@ -1,11 +1,13 @@
 import type { Hotel } from '../../domain/hotel.model';
 import { httpClient, API_BASE_HOTELS } from '../../../../lib/httpClient';
+import { throwApiError } from '../../../../lib/errorHandler';
 
 // 1. Base API URL
 const API_BASE = API_BASE_HOTELS;
 
 // 2. Get all listings (hotels)
 export async function getListings(): Promise<Hotel[]> {
+  try {
 	const res = await httpClient.get(`${API_BASE}`);
 	// The API returns { data: { data: Hotel[], ...meta } }
 	const hotels = res.data?.data?.data || [];
@@ -17,10 +19,14 @@ export async function getListings(): Promise<Hotel[]> {
 		rating: h.rating ?? 0,
 		//amenities: h.amenities ?? [],
 	})) : [];
+  } catch (err) {
+    throwApiError(err);
+  }
 }
 
 // 4. Get single listing by id
 export async function getListing(id: string): Promise<Hotel> {
+  try {
 		const res = await httpClient.get(`${API_BASE}/${id}`);
 		// 5. The API returns { data: { ... } }
 		const h = res.data.data;
@@ -29,21 +35,36 @@ export async function getListing(id: string): Promise<Hotel> {
 			location: h.location || { city: '-', country: '-' },
 			rating: h.rating ?? 0,
 		};
+  } catch (err) {
+    throwApiError(err);
+  }
 }
 
 // 6. Create new listing
 export async function createListing(data: Omit<Hotel, 'id'>): Promise<Hotel> {
+	try {
 	const res = await httpClient.post(`${API_BASE}`, data);
 	return res.data.data;
+	} catch (err) {
+		throwApiError(err);
+	}
 }
 
 // 7. Update listing by id
 export async function updateListing(id: string, data: Partial<Hotel>): Promise<Hotel> {
+	try {
 	const res = await httpClient.put(`${API_BASE}/${id}`, data);
 	return res.data.data;
+	} catch (err) {
+		throwApiError(err);
+	}
 }
 
 // 8. Delete listing by id
 export async function deleteListing(id: string): Promise<void> {
+	try {
 	await httpClient.delete(`${API_BASE}/${id}`);
+	} catch (err) {
+		throwApiError(err);
+	}
 }
