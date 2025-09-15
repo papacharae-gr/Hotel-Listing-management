@@ -42,6 +42,7 @@ export default function RoomsList({ hotelId }: Props) {
   const openAdd = () => { setEditing(null); formDisclosure.onOpen(); };
   const openEdit = (r: Room) => { setEditing(r); formDisclosure.onOpen(); };
   const confirmDelete = (r: Room) => { setToDelete(r); deleteDisclosure.onOpen(); };
+  const handleCloseModal = () => { formDisclosure.onClose(); setEditing(null); };
 
   if (isLoading) {
     return (
@@ -97,7 +98,7 @@ export default function RoomsList({ hotelId }: Props) {
       {editing ? (
         <UpdateRoomModal
           isOpen={formDisclosure.isOpen}
-          onClose={formDisclosure.onClose}
+          onClose={handleCloseModal}
           room={{
             id: editing.id,
             hotelId: editing.hotelId,
@@ -106,14 +107,14 @@ export default function RoomsList({ hotelId }: Props) {
             pricePerNight: editing.pricePerNight,
             isAvailable: editing.isAvailable,
           }}
-          onSuccess={formDisclosure.onClose}
+          onSuccess={handleCloseModal}
         />
       ) : (
         <CreateRoomModal
           isOpen={formDisclosure.isOpen}
-          onClose={formDisclosure.onClose}
+          onClose={handleCloseModal}
           hotelId={hotelId}
-          onSuccess={formDisclosure.onClose}
+          onSuccess={handleCloseModal}
         />
       )}
 
