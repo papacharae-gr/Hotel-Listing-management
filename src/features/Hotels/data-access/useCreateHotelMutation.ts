@@ -3,8 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createListing } from "./gateway/hotel.gateway";
 import type { HotelFormValues } from "../feature/updateHotel/validationSchema";
 
-// Removed Chakra UI toast import
-
 export function useCreateHotelMutation(
   onSuccessNotification?: () => void,
   onErrorNotification?: (error: Error) => void

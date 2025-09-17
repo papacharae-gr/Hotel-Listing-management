@@ -35,7 +35,6 @@ export default function RoomsList({ hotelId }: Props) {
   const { data, isLoading, isError, error } = useListRoomsByHotelQuery(hotelId);
   const rooms = useMemo(() => (data ? sortRooms(data) : []), [data]);
 
-  // TODO: Replace useDisclosure with MUI Dialog or useState logic for modal control
   const [editing, setEditing] = useState<Room | null>(null);
 
   // Delete dialog state
