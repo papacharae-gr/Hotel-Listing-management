@@ -1,6 +1,12 @@
-import {
-  Box, Heading, Badge, Flex, Button, Stack, Spinner, Alert, AlertIcon, Text, Divider, useDisclosure
-} from '@chakra-ui/react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
+// TODO: Integrate MUI Dialog for modal logic
 import { useMemo, useRef, useState } from 'react';
 import { useListRoomsByHotelQuery } from '../data-access/useListRoomsByHotelQuery';
 import type { Room } from '../domain/room.model';
@@ -29,34 +35,34 @@ export default function RoomsList({ hotelId }: Props) {
   const { data, isLoading, isError, error } = useListRoomsByHotelQuery(hotelId);
   const rooms = useMemo(() => (data ? sortRooms(data) : []), [data]);
 
-  // Add/Edit modal state
-  const formDisclosure = useDisclosure();
+  // TODO: Replace useDisclosure with MUI Dialog or useState logic for modal control
   const [editing, setEditing] = useState<Room | null>(null);
 
   // Delete dialog state
   const [toDelete, setToDelete] = useState<Room | null>(null);
-  const deleteDisclosure = useDisclosure();
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isFormModalOpen, setFormModalOpen] = useState(false);
   const cancelRef = useRef<HTMLButtonElement | null>(null);
   const deleteMutation = useDeleteRoomMutation(hotelId);
 
-  const openAdd = () => { setEditing(null); formDisclosure.onOpen(); };
-  const openEdit = (r: Room) => { setEditing(r); formDisclosure.onOpen(); };
-  const confirmDelete = (r: Room) => { setToDelete(r); deleteDisclosure.onOpen(); };
-  const handleCloseModal = () => { formDisclosure.onClose(); setEditing(null); };
+  const openAdd = () => { setEditing(null); setFormModalOpen(true); };
+  const openEdit = (r: Room) => { setEditing(r); setFormModalOpen(true); };
+  const confirmDelete = (r: Room) => { setToDelete(r); setDeleteDialogOpen(true); };
+  const handleCloseModal = () => { setFormModalOpen(false); setEditing(null); };
+  const handleCloseDeleteDialog = () => { setDeleteDialogOpen(false); setToDelete(null); };
 
   if (isLoading) {
     return (
-      <Stack align="center" py={6}>
-        <Spinner />
-        <Text>Loading rooms…</Text>
+      <Stack alignItems="center" py={6}>
+        <CircularProgress />
+        <Typography>Loading rooms…</Typography>
       </Stack>
     );
   }
 
   if (isError) {
     return (
-      <Alert status="error">
-        <AlertIcon />
+  <Alert severity={"error" as 'success' | 'info' | 'warning' | 'error'}>
         {error?.message || 'Αποτυχία φόρτωσης δωματίων'}
       </Alert>
     );
@@ -64,21 +70,20 @@ export default function RoomsList({ hotelId }: Props) {
 
   return (
     <Box>
-      <Flex align="center" justify="space-between" mb={3}>
-        <Flex align="center" gap={2}>
-          <Heading size="md">Rooms</Heading>
-          <Badge colorScheme="teal" variant="subtle">{rooms.length}</Badge>
-        </Flex>
-
-        <Button colorScheme="blue" size="sm" onClick={openAdd}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography variant="h6">Rooms</Typography>
+          <Chip label={rooms.length} color="primary" variant="outlined" size="small" />
+        </Stack>
+        <Button color="primary" variant="contained" size="small" onClick={openAdd}>
           Add Room
         </Button>
-      </Flex>
+      </Stack>
 
-      <Divider mb={3} />
+      <Divider sx={{ mb: 3 }} />
 
       {rooms.length === 0 ? (
-        <Box py={6} textAlign="center" color="gray.500">
+        <Box py={6} textAlign="center" color="text.secondary">
           Δεν υπάρχουν δωμάτια — πρόσθεσε το πρώτο.
         </Box>
       ) : (
@@ -97,7 +102,7 @@ export default function RoomsList({ hotelId }: Props) {
       {/* Add/Edit Form Modal */}
       {editing ? (
         <UpdateRoomModal
-          isOpen={formDisclosure.isOpen}
+          isOpen={isFormModalOpen}
           onClose={handleCloseModal}
           room={{
             id: editing.id,
@@ -111,7 +116,7 @@ export default function RoomsList({ hotelId }: Props) {
         />
       ) : (
         <CreateRoomModal
-          isOpen={formDisclosure.isOpen}
+          isOpen={isFormModalOpen}
           onClose={handleCloseModal}
           hotelId={hotelId}
           onSuccess={handleCloseModal}
@@ -121,18 +126,12 @@ export default function RoomsList({ hotelId }: Props) {
       {/* Delete confirmation dialog (shared component) */}
       {toDelete && (
         <DeleteDialog
-          isDialogOpen={deleteDisclosure.isOpen}
-          handleCancelDelete={() => {
-            deleteDisclosure.onClose();
-            setToDelete(null);
-          }}
+          isDialogOpen={isDeleteDialogOpen}
+          handleCancelDelete={handleCloseDeleteDialog}
           handleConfirmDelete={() => {
             if (!toDelete) return;
             deleteMutation.mutate(toDelete.id, {
-              onSuccess: () => {
-                deleteDisclosure.onClose();
-                setToDelete(null);
-              },
+              onSuccess: handleCloseDeleteDialog,
             });
           }}
           deleteMutation={deleteMutation}

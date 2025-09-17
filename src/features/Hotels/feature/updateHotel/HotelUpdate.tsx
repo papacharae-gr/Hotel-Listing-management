@@ -1,24 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useListingQuery } from "../../data-access/useListOneHotelQuery";
-import {
-  Container,
-  Spinner,
-  Text,
-  Stack,
-  Alert,
-  AlertIcon,
-  Divider,
-  Flex,
-  Button,
-} from "@chakra-ui/react";
-import { useUpdateListingMutation } from "../../data-access/useUpdateHotelMutation";
+import { useListOneHotelQuery } from "../../data-access/useListOneHotelQuery";
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
+import { useUpdateHotelMutation } from "../../data-access/useUpdateHotelMutation";
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 
 export default function HotelUpdatePage() {
   const { id = "hotel" } = useParams();
-  const { data, isLoading, isError, error } = useListingQuery(id);
-  const mutation = useUpdateListingMutation(id);
+  const { data, isLoading, isError, error } = useListOneHotelQuery(id);
+  const mutation = useUpdateHotelMutation(id);
 
   async function handleSubmit(values: any) {
     await mutation.mutateAsync(values);
@@ -26,10 +23,10 @@ export default function HotelUpdatePage() {
 
   if (isLoading) {
     return (
-      <Container maxW="container.md" py={10}>
-        <Stack align="center" gap={4}>
-          <Spinner />
-          <Text>Loading listing…</Text>
+      <Container maxWidth="md" sx={{ py: 10 }}>
+        <Stack alignItems="center" spacing={2}>
+          <CircularProgress />
+          <Typography>Loading listing…</Typography>
         </Stack>
       </Container>
     );
@@ -37,9 +34,8 @@ export default function HotelUpdatePage() {
 
   if (isError || !data) {
     return (
-      <Container maxW="container.md" py={10}>
-        <Alert status="error">
-          <AlertIcon />
+      <Container maxWidth="md" sx={{ py: 10 }}>
+  <Alert severity={"error" as 'success' | 'info' | 'warning' | 'error'}>
           {(error as Error)?.message || "Failed to load listing."}
         </Alert>
       </Container>
@@ -47,17 +43,15 @@ export default function HotelUpdatePage() {
   }
 
   return (
-    <Container maxW="container.md" py={10}>
-      <Stack gap={6}>
-        <Flex justify="space-between" align="center">
-          <Text fontSize="xl" fontWeight="semibold">Edit Listing</Text>
-          <Button as={Link} to={`/listings/${id}`} variant="outline">
+    <Container maxWidth="md" sx={{ py: 10 }}>
+      <Stack spacing={4}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography variant="h6" fontWeight={600}>Edit Listing</Typography>
+          <Button component={Link} to={`/listings/${id}`} variant="outlined" color="primary">
             View
           </Button>
-        </Flex>
-
+        </Box>
         <Divider />
-
         <HotelForm
           defaultValues={{
             name: data.name,
@@ -66,11 +60,10 @@ export default function HotelUpdatePage() {
           }}
           onSubmit={handleSubmit}
         />
-
         <Divider />
-        {/* <Text color="gray.500" fontSize="sm">
+        {/* <Typography color="text.secondary" fontSize="small">
           * Rating and location are read-only in this demo.
-        </Text> */} 
+        </Typography> */}
       </Stack>
     </Container>
   );

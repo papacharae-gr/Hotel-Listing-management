@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import Box from '@mui/material/Box';
 import { RoomList } from '../../components';
 
 type Props = { hotelId: string };

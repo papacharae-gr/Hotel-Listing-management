@@ -1,16 +1,13 @@
 import React from "react";
-import {
-  Stack,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Button,
-  Badge,
-  Flex,
-  Checkbox,
-  CheckboxGroup,
-} from "@chakra-ui/react";
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -43,61 +40,75 @@ export const HotelForm: React.FC<HotelFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={4}>
-        <FormControl isInvalid={!!errors.name} isRequired>
-          <FormLabel>Όνομα</FormLabel>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <Input {...field} />}
-          />
-          {errors.name && (
-            <span style={{ color: "red" }}>{errors.name.message}</span>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Όνομα"
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              required
+              fullWidth
+            />
           )}
-        </FormControl>
-        <FormControl isInvalid={!!errors.description} isRequired>
-          <FormLabel>Περιγραφή</FormLabel>
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => <Textarea {...field} />}
-          />
-          {errors.description && (
-            <span style={{ color: "red" }}>{errors.description.message}</span>
+        />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Περιγραφή"
+              error={!!errors.description}
+              helperText={errors.description?.message}
+              required
+              multiline
+              rows={3}
+              fullWidth
+            />
           )}
-        </FormControl>
-        <FormControl isInvalid={!!errors.amenities}>
-          <FormLabel>Amenities</FormLabel>
+        />
+        <FormControl component="fieldset" error={!!errors.amenities}>
+          <FormLabel component="legend">Amenities</FormLabel>
           <Controller
             name="amenities"
             control={control}
             render={({ field }) => (
-              <CheckboxGroup value={field.value} onChange={field.onChange}>
-                <Stack direction="row" flexWrap="wrap">
-                  {['WiFi', 'Pool', 'Gym', 'Parking', 'Spa', 'Restaurant', 'Bar', 'Pet Friendly', 'Air Conditioning'].map((amenity) => (
-                    <Checkbox key={amenity} value={amenity}>
-                      {amenity}
-                    </Checkbox>
+              <FormGroup row>
+                {['WiFi', 'Pool', 'Gym', 'Parking', 'Spa', 'Restaurant', 'Bar', 'Pet Friendly', 'Air Conditioning'].map((amenity) => (
+                  <Checkbox
+                    key={amenity}
+                    checked={field.value?.includes(amenity) || false}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        field.onChange([...field.value, amenity]);
+                      } else {
+                        field.onChange(field.value.filter((a: string) => a !== amenity));
+                      }
+                    }}
+                    value={amenity}
+                    inputProps={{ 'aria-label': amenity }}
+                  />
                   ))}
-                </Stack>
-              </CheckboxGroup>
+              </FormGroup>
             )}
           />
-          <Flex gap={2} mt={2} flexWrap="wrap">
+          <Box sx={{ display: 'flex', gap: 1, mt: 2, flexWrap: 'wrap' }}>
             {watch("amenities")?.map((a: string) => (
-              <Badge key={a} colorScheme="blue">
-                {a}
-              </Badge>
+              <Chip key={a} label={a} color="primary" />
             ))}
-          </Flex>
+          </Box>
           {errors.amenities && (
             <span style={{ color: "red" }}>{errors.amenities.message as string}</span>
           )}
         </FormControl>
         <Button
           type="submit"
-          colorScheme="teal"
-          isLoading={isLoading}
-          isDisabled={isLoading}
+          color="primary"
+          variant="contained"
+          disabled={isLoading}
         >
           {submitText}
         </Button>

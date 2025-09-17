@@ -1,5 +1,4 @@
-
-import { SimpleGrid } from "@chakra-ui/react";
+import { Box } from '@mui/material';
 import type { Hotel } from '../../domain/hotel.model';
 import { HotelCard } from '../../components/HotelCard';
 
@@ -11,15 +10,26 @@ interface HotelListProps {
 
 export function HotelList({ hotels, onDelete, isDeleting }: HotelListProps) {
   return (
-    <SimpleGrid columns={[1, 2, 3]} spacing={6} flex="1">
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: {
+          xs: '1fr',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+        },
+        gap: 3,
+      }}
+    >
       {hotels.map((hotel) => (
-        <HotelCard
-          key={hotel.id}
-          hotel={hotel}
-          onDelete={onDelete}
-          isDeleting={isDeleting}
-        />
+        <Box key={hotel.id}>
+          <HotelCard
+            hotel={hotel}
+            onDelete={onDelete}
+            isDeleting={isDeleting}
+          />
+        </Box>
       ))}
-    </SimpleGrid>
+    </Box>
   );
 }

@@ -1,4 +1,5 @@
-import { Checkbox } from "@chakra-ui/react";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import type { ReactNode } from "react";
 
 type Props = {
@@ -10,8 +11,11 @@ type Props = {
 
 export default function FormCheckbox({ value, isChecked, onChange, children }: Props) {
   return (
-    <Checkbox value={value} isChecked={isChecked} onChange={onChange}>
-      {children}
-    </Checkbox>
+    <FormControlLabel
+      control={
+        <Checkbox checked={isChecked} onChange={onChange} value={value} />
+      }
+      label={children}
+    />
   );
 }

@@ -1,13 +1,8 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Badge,
-  Button,
-  Stack,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
 import type { Room } from '../domain/room.model';
 
 type Props = {
@@ -25,32 +20,29 @@ function formatPrice(value: number) {
 }
 
 export default function RoomCard({ room, onEdit, onDelete }: Props) {
-  const border = useColorModeValue('gray.200', 'gray.700');
+  const border = '#e0e0e0';
   const available = room.isAvailable;
 
   return (
-    <Box borderWidth="1px" borderColor={border} borderRadius="lg" p={4}>
-      <Flex align="center" justify="space-between" mb={2}>
-        <Stack spacing={1}>
-          <Flex align="center" gap={2}>
-            <Heading size="sm">Room {room.roomNumber}</Heading>
-            <Badge variant="subtle" colorScheme="blue">{room.type}</Badge>
-            <Badge variant="subtle" colorScheme={available ? 'green' : 'red'}>
-              {available ? 'Available' : 'Unavailable'}
-            </Badge>
-          </Flex>
-          <Text fontSize="sm" color="gray.500">
+    <Box sx={{ border: `1px solid ${border}`, borderRadius: 2, p: 2, mb: 2 }}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+        <Stack spacing={1} direction="column">
+          <Stack direction="row" alignItems="center" gap={1}>
+            <Typography variant="h6" fontSize={16}>Room {room.roomNumber}</Typography>
+            <Chip label={room.type} color="primary" size="small" />
+            <Chip label={available ? 'Available' : 'Unavailable'} color={available ? 'success' : 'error'} size="small" />
+          </Stack>
+          <Typography variant="body2" color="text.secondary">
             {formatPrice(room.pricePerNight)} / night
-          </Text>
+          </Typography>
         </Stack>
-
-        <Flex gap={2}>
-          <Button size="sm" onClick={() => onEdit?.(room)}>Edit</Button>
-          <Button size="sm" colorScheme="red" variant="outline" onClick={() => onDelete?.(room)}>
+        <Stack direction="row" gap={1}>
+          <Button size="small" variant="contained" color="primary" onClick={() => onEdit?.(room)}>Edit</Button>
+          <Button size="small" variant="outlined" color="error" onClick={() => onDelete?.(room)}>
             Delete
           </Button>
-        </Flex>
-      </Flex>
+        </Stack>
+      </Stack>
     </Box>
   );
 }

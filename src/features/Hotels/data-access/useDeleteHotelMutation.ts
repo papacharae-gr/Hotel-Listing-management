@@ -2,32 +2,20 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteListing } from "./gateway/hotel.gateway";
-import { useToast } from "@chakra-ui/react";
 
-export function useDeleteHotelMutation() {
+export function useDeleteHotelMutation(
+  onSuccessNotification?: () => void,
+  onErrorNotification?: (error: Error) => void
+) {
   const queryClient = useQueryClient();
-  const toast = useToast();
   return useMutation({
     mutationFn: async (id: string) => deleteListing(id),
     onSuccess: () => {
-      toast({
-        title: "Το ξενοδοχείο διαγράφηκε!",
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-        position: "top",
-      });
+      if (onSuccessNotification) onSuccessNotification();
       queryClient.invalidateQueries({ queryKey: ["hotels"] });
     },
     onError: (err: Error) => {
-      toast({
-        title: "Σφάλμα",
-        description: err.message || "Αποτυχία διαγραφής ξενοδοχείου",
-        status: "error",
-        duration: 3500,
-        isClosable: true,
-        position: "top",
-      });
+      if (onErrorNotification) onErrorNotification(err);
     },
   });
 }

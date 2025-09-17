@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button } from "@chakra-ui/react";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 
 type DeleteDialogProps = {
@@ -26,18 +30,14 @@ const DeleteDialog: React.FC<DeleteDialogProps> = ({
   confirmText ,
 }) => {
   return (
-    <AlertDialog isOpen={isDialogOpen} leastDestructiveRef={cancelRef} onClose={handleCancelDelete} isCentered>
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">{title}</AlertDialogHeader>
-          <AlertDialogBody>{bodyText}</AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={handleCancelDelete}>{cancelText}</Button>
-            <Button colorScheme="red" onClick={handleConfirmDelete} ml={3} isLoading={deleteMutation.isPending}>{confirmText}</Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogOverlay>
-    </AlertDialog>
+  <Dialog open={isDialogOpen} onClose={handleCancelDelete} aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
+      <DialogTitle id="delete-dialog-title">{title}</DialogTitle>
+      <DialogContent id="delete-dialog-description">{bodyText}</DialogContent>
+      <DialogActions>
+  <Button ref={cancelRef} onClick={handleCancelDelete} color="primary">{cancelText}</Button>
+        <Button onClick={handleConfirmDelete} color="error" variant="contained" disabled={deleteMutation.isPending}>{confirmText}</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

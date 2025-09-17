@@ -1,8 +1,14 @@
 
-import {
-  FormControl, FormLabel, Input, Select, Switch, FormErrorMessage, Stack, Button
-} from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { roomFormSchema, roomTypes, type RoomFormValues } from '../feature/roomForm/validationSchema';
 
@@ -16,10 +22,9 @@ type RoomFormFieldsProps = {
 
 export function RoomFormFields({ defaultValues, onSubmit, loading, submitLabel, onCancel }: RoomFormFieldsProps) {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    watch,
   } = useForm<RoomFormValues>({
     resolver: zodResolver(roomFormSchema),
     defaultValues,
@@ -28,45 +33,73 @@ export function RoomFormFields({ defaultValues, onSubmit, loading, submitLabel, 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={4}>
-        <FormControl isInvalid={!!errors.roomNumber}>
-          <FormLabel>Room Number</FormLabel>
-          <Input
-            placeholder="e.g. 101 or A2"
-            {...register('roomNumber')}
-            autoFocus
+        <Controller
+          name="roomNumber"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Room Number"
+              placeholder="e.g. 101 or A2"
+              error={!!errors.roomNumber}
+              helperText={errors.roomNumber?.message}
+              autoFocus
+              fullWidth
+            />
+          )}
+        />
+
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <FormControl fullWidth error={!!errors.type}>
+              <FormLabel>Type</FormLabel>
+              <Select {...field} label="Type">
+                {roomTypes.map((t) => (
+                  <MenuItem key={t} value={t}>{t}</MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>{errors.type?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          name="pricePerNight"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Price per night"
+              type="number"
+              error={!!errors.pricePerNight}
+              helperText={errors.pricePerNight?.message}
+              fullWidth
+            />
+          )}
+        />
+
+        <FormControl component="fieldset" sx={{ display: 'flex', alignItems: 'center' }}>
+          <FormLabel component="legend" sx={{ mb: 0 }}>Available</FormLabel>
+          <Controller
+            name="isAvailable"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                checked={field.value}
+                onChange={field.onChange}
+                color="primary"
+              />
+            )}
           />
-          <FormErrorMessage>{errors.roomNumber?.message}</FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.type}>
-          <FormLabel>Type</FormLabel>
-          <Select {...register('type')}>
-            {roomTypes.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </Select>
-          <FormErrorMessage>{errors.type?.message}</FormErrorMessage>
-        </FormControl>
-
-        <FormControl isInvalid={!!errors.pricePerNight}>
-          <FormLabel>Price per night</FormLabel>
-          <Input
-            type="number"
-            {...register('pricePerNight', { valueAsNumber: true })}
-          />
-          <FormErrorMessage>{errors.pricePerNight?.message}</FormErrorMessage>
-        </FormControl>
-
-        <FormControl display="flex" alignItems="center">
-          <FormLabel mb="0">Available</FormLabel>
-          <Switch {...register('isAvailable')} isChecked={watch('isAvailable')} />
         </FormControl>
       </Stack>
-      <Stack direction="row" justify="flex-end" mt={6}>
-        <Button variant="ghost" onClick={onCancel} isDisabled={submitting}>
+      <Stack direction="row" justifyContent="flex-end" mt={6}>
+        <Button variant="text" onClick={onCancel} disabled={submitting}>
           Cancel
         </Button>
-        <Button colorScheme="blue" type="submit" isLoading={submitting}>
+        <Button color="primary" variant="contained" type="submit" disabled={submitting}>
           {submitLabel}
         </Button>
       </Stack>

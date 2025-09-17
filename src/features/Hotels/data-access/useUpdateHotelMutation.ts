@@ -1,32 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateListing } from "./gateway/hotel.gateway";
-import { useToast } from "@chakra-ui/react";
-
-export function useUpdateListingMutation(id: string) {
-  const qc = useQueryClient();
-  const toast = useToast();
+export function useUpdateHotelMutation(
+  id: string,
+  onSuccessNotification?: () => void,
+  onErrorNotification?: (error: Error) => void
+) {
+  const queryClient = useQueryClient();
   return useMutation<unknown, Error, Record<string, unknown>>({
     mutationFn: (data) => updateListing(id, data),
     onSuccess: () => {
-      toast({
-        title: "Το ξενοδοχείο ενημερώθηκε!",
-        status: "success",
-        duration: 2500,
-        isClosable: true,
-        position: "top",
-      });
-      qc.invalidateQueries({ queryKey: ["hotel", id] });
-      qc.invalidateQueries({ queryKey: ["hotels"] });
+      if (onSuccessNotification) onSuccessNotification();
+      queryClient.invalidateQueries({ queryKey: ["hotel", id] });
+      queryClient.invalidateQueries({ queryKey: ["hotels"] });
     },
     onError: (err: Error) => {
-      toast({
-        title: "Σφάλμα",
-        description: err.message || "Αποτυχία ενημέρωσης ξενοδοχείου",
-        status: "error",
-        duration: 3500,
-        isClosable: true,
-        position: "top",
-      });
+      if (onErrorNotification) onErrorNotification(err);
     },
   });
 }

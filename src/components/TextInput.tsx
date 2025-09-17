@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, FormLabel, Input, Textarea } from "@chakra-ui/react";
+import TextField from '@mui/material/TextField';
 // ⬇️ type-only imports από RHF (δεν γίνονται runtime imports)
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
@@ -13,14 +13,15 @@ type Props = {
 
 export default function TextInput({ label, name, error, textarea, register }: Props) {
   return (
-    <FormControl isInvalid={!!error}>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
-      {textarea ? (
-        <Textarea id={name} {...register} />
-      ) : (
-        <Input id={name} {...register} />
-      )}
-      {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
-    </FormControl>
+    <TextField
+      id={name}
+      label={label}
+      error={!!error}
+      helperText={error?.message}
+      multiline={!!textarea}
+      {...register}
+      fullWidth
+      variant="outlined"
+    />
   );
 }

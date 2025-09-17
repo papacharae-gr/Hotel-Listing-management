@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { Box } from "@chakra-ui/react";
+import Box from '@mui/material/Box';
 import { Navbar } from ".";
 
 export default function Layout() {
   return (
-    <Box minH="100dvh">
+  <Box sx={{ minHeight: '100dvh' }}>
       <Navbar />
       <Outlet />
     </Box>

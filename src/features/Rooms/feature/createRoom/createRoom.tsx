@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, Box } from "@chakra-ui/react";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { RoomFormFields } from "../../components/RoomForm";
 import { useCreateRoomMutation } from "../../data-access/useCreateRoomMutation";
 import type { RoomFormValues } from "../roomForm/validationSchema";
@@ -27,22 +31,23 @@ export const CreateRoomModal: React.FC<{ hotelId: string; isOpen: boolean; onClo
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
-      <ModalOverlay />
-      <ModalContent borderRadius="xl" boxShadow="2xl" p={2}>
-        <ModalHeader px={6} pt={6} pb={2} fontWeight="bold" fontSize="xl">Create Room</ModalHeader>
-        <ModalCloseButton top={4} right={4} />
-        <Box px={6} pb={6} pt={2}>
-          <RoomFormFields
-            defaultValues={formValues}
-            onSubmit={handleSubmit}
-            loading={loading}
-            submitLabel="Create"
-            onCancel={onClose}
-          />
-        </Box>
-      </ModalContent>
-    </Modal>
+    <Dialog open={isOpen} onClose={onClose} maxWidth="md" fullWidth>
+      <DialogTitle sx={{ px: 4, pt: 4, pb: 2, fontWeight: 'bold', fontSize: '1.25rem' }}>
+        Create Room
+        <IconButton aria-label="close" onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent sx={{ px: 4, pb: 4, pt: 2 }}>
+        <RoomFormFields
+          defaultValues={formValues}
+          onSubmit={handleSubmit}
+          loading={loading}
+          submitLabel="Create"
+          onCancel={onClose}
+        />
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -1,4 +1,12 @@
-import { Heading, Text, Stack, Button, Badge, Flex, Card, CardBody, CardFooter, Divider } from "@chakra-ui/react";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import { Link } from "react-router-dom";
 import type { Hotel } from "../domain/hotel.model";
 
@@ -10,55 +18,43 @@ interface HotelCardProps {
 }
 
 export const HotelCard = ({ hotel, onDelete, isDeleting }: HotelCardProps) => {
-	const cardBg = "white";
-	const muted = "gray.600";
+	const cardBg = "#fff";
+	const muted = "#757575";
 	const hasDescription = !!hotel.description?.trim();
 	const amenityList = (hotel.amenities ?? []).filter(Boolean);
-	return (
-		<Card
-			maxW="sm"
-			height="300px"
-			bg={cardBg}
-			borderRadius="xl"
-			boxShadow="md"
-			_hover={{ boxShadow: "xl", transform: "translateY(-2px)" }}
-			transition="all 0.15s ease"
-		>
-			<CardBody>
-				<Stack spacing={3}>
-					<Heading size="md">{hotel.name}</Heading>
-					{hasDescription ? (
-						<Text noOfLines={3}>{hotel.description}</Text>
-					) : (
-						<Text noOfLines={2} color={muted}>
-							No description provided.
-						</Text>
-					)}
-					{amenityList.length > 0 && (
-						<Flex gap={2} wrap="wrap">
-							{amenityList.map((a) => (
-								<Badge key={a} colorScheme="blue" variant="subtle" borderRadius="full" px={2} py={1}>
-									{a}
-								</Badge>
-							))}
-						</Flex>
-					)}
-				</Stack>
-			</CardBody>
-			<Divider />
-			<CardFooter>
-				<Flex w="100%" justify="space-between" gap={2}>
-					<Button as={Link} to={`/listings/${hotel.id}`} colorScheme="cyan" variant="outline" size="sm">
+		return (
+			<Card sx={{ maxWidth: 345, height: 300, bgcolor: cardBg, borderRadius: 3, boxShadow: 3, transition: 'all 0.15s ease', '&:hover': { boxShadow: 6, transform: 'translateY(-2px)' } }}>
+				<CardContent>
+					<Stack spacing={2}>
+						<Typography variant="h6">{hotel.name}</Typography>
+						{hasDescription ? (
+							<Typography variant="body2" sx={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{hotel.description}</Typography>
+						) : (
+							<Typography variant="body2" color={muted} sx={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+								No description provided.
+							</Typography>
+						)}
+						{amenityList.length > 0 && (
+							<Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+								{amenityList.map((a) => (
+									<Chip key={a} label={a} color="primary" variant="outlined" size="small" />
+								))}
+							</Box>
+						)}
+					</Stack>
+				</CardContent>
+				<Divider />
+				<CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
+					<Button component={Link} to={`/listings/${hotel.id}`} color="info" variant="outlined" size="small">
 						View
 					</Button>
-					<Button as={Link} to={`/listings/${hotel.id}/edit`} colorScheme="blue" variant="solid" size="sm">
+					<Button component={Link} to={`/listings/${hotel.id}/edit`} color="primary" variant="contained" size="small">
 						Edit
 					</Button>
-					<Button colorScheme="red" variant="outline" size="sm" isLoading={isDeleting} onClick={() => onDelete(hotel.id)}>
+					<Button color="error" variant="outlined" size="small" disabled={isDeleting} onClick={() => onDelete(hotel.id)}>
 						Delete
 					</Button>
-				</Flex>
-			</CardFooter>
-		</Card>
-	);
+				</CardActions>
+			</Card>
+		);
 };	

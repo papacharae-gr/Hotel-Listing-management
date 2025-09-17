@@ -1,28 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { getListing } from './gateway/hotel.gateway';
-import { useToast } from '@chakra-ui/react';
-
+import type { Hotel } from '../domain/hotel.model';
 import { useEffect } from 'react';
 
-export function useListingQuery(id: string) {
-    const toast = useToast();
-    const queryResult = useQuery({
-        queryKey: ['hotel', id],
-        queryFn: () => getListing(id),
-    });
+// Custom hook για να φέρνει ένα ξενοδοχείο (listing)
+export function useListOneHotelQuery(id: string, onErrorNotification?: (error: Error) => void) {
+        const queryResult = useQuery<Hotel, Error, Hotel, [string, string]>(
+            {
+                queryKey: ['hotel', id],
+                queryFn: () => getListing(id),
+                enabled: !!id,
+            }
+        );
 
     useEffect(() => {
-        if (queryResult.isError && queryResult.error instanceof Error) {
-            toast({
-                title: 'Σφάλμα',
-                description: queryResult.error.message || 'Αποτυχία φόρτωσης ξενοδοχείου',
-                status: 'error',
-                duration: 3500,
-                isClosable: true,
-                position: 'top',
-            });
+        if (queryResult.isError && queryResult.error && onErrorNotification) {
+            onErrorNotification(queryResult.error);
         }
-    }, [queryResult.isError, queryResult.error, toast]);
+    }, [queryResult.isError, queryResult.error, onErrorNotification]);
 
     return queryResult;
 }

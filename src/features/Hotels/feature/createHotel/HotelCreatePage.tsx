@@ -1,6 +1,7 @@
 
 
-import { Box, Heading } from "@chakra-ui/react";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { HotelForm } from "../../components/HotelForm";
 import { useCreateHotelMutation } from "../../data-access/useCreateHotelMutation";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +25,10 @@ export default function HotelCreatePage() {
   }
 
   return (
-    <Box maxW="md" mx="auto" mt={10} p={8} boxShadow="md" borderRadius="lg">
-      <Heading mb={6} size="lg">
+    <Box sx={{ maxWidth: 600, margin: '40px auto', p: 4, boxShadow: 3, borderRadius: 3 }}>
+      <Typography variant="h5" sx={{ mb: 3 }}>
         Προσθήκη Ξενοδοχείου
-      </Heading>
+      </Typography>
       <HotelForm
         defaultValues={{
           name: "",
