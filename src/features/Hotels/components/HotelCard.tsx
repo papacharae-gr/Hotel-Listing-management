@@ -44,7 +44,7 @@ export const HotelCard = ({ hotel, onDelete, isDeleting }: HotelCardProps) => {
 					</Stack>
 				</CardContent>
 				<Divider />
-				<CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
+				<CardActions sx={{ justifyContent: 'space-between', px: 4 }}>
 					<Button component={Link} to={`/listings/${hotel.id}`} color="info" variant="outlined" size="small">
 						View
 					</Button>

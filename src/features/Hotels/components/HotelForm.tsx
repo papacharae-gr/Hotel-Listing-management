@@ -2,6 +2,7 @@
 import React from "react";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { useForm } from "react-hook-form";
@@ -102,6 +103,15 @@ export const HotelForm: React.FC<HotelFormProps> = ({
           disabled={isLoading}
         >
           {submitText}
+        </Button>
+        <Button
+          component={Link}
+          to="/"
+          color="secondary"
+          variant="outlined"
+          sx={{ mt: 2 }}
+        >
+          Αρχική
         </Button>
       </Stack>
     </form>
