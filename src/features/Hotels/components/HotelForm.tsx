@@ -6,7 +6,10 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextFieldElement, CheckboxElement } from "react-hook-form-mui";
+import { TextFieldElement } from "react-hook-form-mui";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Controller } from "react-hook-form";
 
 import type { HotelFormValues } from "../feature/updateHotel/validationSchema";
 import { hotelFormSchema } from "../feature/updateHotel/validationSchema";
@@ -59,17 +62,35 @@ export const HotelForm: React.FC<HotelFormProps> = ({
           <Box sx={{ mb: 1, fontWeight: 500 }}>Amenities</Box>
           <Stack direction="row" flexWrap="wrap" gap={2}>
             {AMENITIES.map((amenity) => (
-              <CheckboxElement
+              <Controller
                 key={amenity}
                 name="amenities"
-                label={amenity}
-                value={amenity}
                 control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={Array.isArray(field.value) ? field.value.includes(amenity) : false}
+                        onChange={(e) => {
+                          const checked = e.target.checked;
+                          let newValue: string[] = Array.isArray(field.value) ? [...field.value] : [];
+                          if (checked) {
+                            if (!newValue.includes(amenity)) newValue.push(amenity);
+                          } else {
+                            newValue = newValue.filter((a) => a !== amenity);
+                          }
+                          field.onChange(newValue);
+                        }}
+                      />
+                    }
+                    label={amenity}
+                  />
+                )}
               />
             ))}
           </Stack>
           <Box sx={{ display: 'flex', gap: 1, mt: 2, flexWrap: 'wrap' }}>
-            {watch("amenities")?.map((a: string) => (
+            {Array.isArray(watch("amenities")) && watch("amenities").map((a: string) => (
               <Chip key={a} label={a} color="primary" />
             ))}
           </Box>
