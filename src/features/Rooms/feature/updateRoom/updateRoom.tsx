@@ -48,6 +48,7 @@ export const UpdateRoomModal: React.FC<UpdateRoomModalProps> = ({ room, isOpen, 
         <IconButton aria-label="close" onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
+        
       </DialogTitle>
       <DialogContent sx={{ px: 4, pb: 4, pt: 2 }}>
         <RoomFormFields

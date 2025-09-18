@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useListOneHotelQuery } from "../../data-access/useListOneHotelQuery";
+import React from 'react';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
@@ -9,6 +10,8 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import { useUpdateHotelMutation } from "../../data-access/useUpdateHotelMutation";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { Link, useParams } from "react-router-dom";
 import { HotelForm } from "../../components/HotelForm";
 
@@ -16,9 +19,22 @@ export default function HotelUpdatePage() {
   const { id = "hotel" } = useParams();
   const { data, isLoading, isError, error } = useListOneHotelQuery(id);
   const mutation = useUpdateHotelMutation(id);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = React.useState<'success' | 'error'>('success');
 
   async function handleSubmit(values: any) {
-    await mutation.mutateAsync(values);
+    try {
+      await mutation.mutateAsync(values);
+      setSnackbarMessage("Hotel updated successfully!");
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+    
+    } catch (err: any) {
+      setSnackbarMessage(err?.message || "Failed to update hotel.");
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
   }
 
   if (isLoading) {
@@ -65,6 +81,22 @@ export default function HotelUpdatePage() {
           * Rating and location are read-only in this demo.
         </Typography> */}
       </Stack>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </Container>
   );
 }

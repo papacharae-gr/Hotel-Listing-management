@@ -1,16 +1,9 @@
 
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Switch from '@mui/material/Switch';
+import { FormContainer, TextFieldElement, SelectElement, SwitchElement } from 'react-hook-form-mui';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { roomFormSchema, roomTypes, type RoomFormValues } from '../feature/roomForm/validationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type RoomFormFieldsProps = {
   defaultValues: RoomFormValues;
@@ -20,89 +13,46 @@ type RoomFormFieldsProps = {
   onCancel: () => void;
 };
 
-export function RoomFormFields({ defaultValues, onSubmit, loading, submitLabel, onCancel }: RoomFormFieldsProps) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<RoomFormValues>({
-    resolver: zodResolver(roomFormSchema),
-    defaultValues,
-  });
-  const submitting = loading || isSubmitting;
+export function RoomFormFields({ defaultValues, onSubmit, submitLabel, onCancel }: RoomFormFieldsProps) {
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack gap={4}>
-        <Controller
+    <FormContainer
+      defaultValues={defaultValues}
+      resolver={zodResolver(roomFormSchema)}
+      onSuccess={onSubmit}
+    >
+      <Stack gap={4} margin={2}>
+        <TextFieldElement
           name="roomNumber"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Room Number"
-              placeholder="e.g. 101 or A2"
-              error={!!errors.roomNumber}
-              helperText={errors.roomNumber?.message}
-              autoFocus
-              fullWidth
-            />
-          )}
+          label="Room Number"
+          placeholder="e.g. 101 or A2"
+          autoFocus
+          fullWidth
         />
-
-        <Controller
+        <SelectElement
           name="type"
-          control={control}
-          render={({ field }) => (
-            <FormControl fullWidth error={!!errors.type}>
-              <FormLabel>Type</FormLabel>
-              <Select {...field} label="Type">
-                {roomTypes.map((t) => (
-                  <MenuItem key={t} value={t}>{t}</MenuItem>
-                ))}
-              </Select>
-              <FormHelperText>{errors.type?.message}</FormHelperText>
-            </FormControl>
-          )}
+          label="Type"
+          options={roomTypes.map((t) => ({ id: t, label: t }))}
+          fullWidth
         />
-
-        <Controller
+        <TextFieldElement
           name="pricePerNight"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Price per night"
-              type="number"
-              error={!!errors.pricePerNight}
-              helperText={errors.pricePerNight?.message}
-              fullWidth
-            />
-          )}
+          label="Price per night"
+          type="number"
+          fullWidth
         />
-
-        <FormControl component="fieldset" sx={{ display: 'flex', alignItems: 'center' }}>
-          <FormLabel component="legend" sx={{ mb: 0 }}>Available</FormLabel>
-          <Controller
-            name="isAvailable"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                checked={field.value}
-                onChange={field.onChange}
-                color="primary"
-              />
-            )}
-          />
-        </FormControl>
+        <SwitchElement
+          name="isAvailable"
+          label="Available"
+        />
       </Stack>
       <Stack direction="row" justifyContent="flex-end" mt={6}>
-        <Button variant="text" onClick={onCancel} disabled={submitting}>
+        <Button variant="text" onClick={onCancel}>
           Cancel
         </Button>
-        <Button color="primary" variant="contained" type="submit" disabled={submitting}>
+        <Button color="primary" variant="contained" type="submit">
           {submitLabel}
         </Button>
       </Stack>
-    </form>
+    </FormContainer>
   );
 }
